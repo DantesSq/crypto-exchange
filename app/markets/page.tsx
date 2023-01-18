@@ -28,21 +28,23 @@ interface dataItem {
 const Markets = async () => {
     const data: dataItem[] = await getData();
     return (
-        <div className="container mx-auto">
-            <div className="sort__items flex justify-between h-[60px] border-b-4 border-primaryL">
-                <div>#</div>
-                <div>Crypto Name</div>
-                <div>Crypto Price</div>
-                <div>24h%</div>
-                <div>MarketCup Volume</div>
-                <div>Volume 24h 1111111111</div>
+        <div className="container mx-50px px-[40px]">
+            <div className="sort__items flex justify-between items-center h-[60px] border-y-2 border-grayL border-solid text-gray">
+                <div className="w-[5%]">#</div>
+                <div className="w-[20%]">Crypto Name Name</div>
+                <div className="w-[10%]">Crypto Price Price Price</div>
+                <div className="w-[10%]">Crypto Price Price Price</div>
+                <div className="w-[5%]">24h%</div>
+                <div className="w-[15%]">MarketCup Volume</div>
+                <div className="w-[10%]">Volume 24h</div>
             </div>
 
             {data &&
-                data.map((item: dataItem, id: number) => (
+                data.map((item: dataItem, sequence: number) => (
                     <CryptoElement
                         key={item.id}
-                        id={id}
+                        sequence={sequence + 1}
+                        id={item.id}
                         symbol={item.symbol}
                         name={item.name}
                         priceUsd={item.priceUsd}

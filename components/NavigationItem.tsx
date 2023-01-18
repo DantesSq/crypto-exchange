@@ -12,12 +12,12 @@ interface NavigationItemProps {
 const NavigationItem: FC<NavigationItemProps> = ({ children, href }) => {
     const pathname = usePathname();
 
-    const className = pathname === href ? 'text-primaryL' : '';
+    const className = pathname === href ? 'text-primaryL border-b-[2px] border-solid' : '';
 
     return (
-        <ul className={className}>
+        <li className={`${className} h-[100%] flex items-center`}>
             <Link href={href}>{children}</Link>
-        </ul>
+        </li>
     );
 };
 export default NavigationItem;
