@@ -3,6 +3,7 @@ import React from 'react';
 import CryptoElement from '@/components/CryptoElement';
 import { useAppSelector } from '@/hooks/redux';
 import { dataItem } from '../page';
+import axios from 'axios';
 
 const Watchlist = () => {
     const { favourite } = useAppSelector((state) => state.favouriteSlice);
@@ -11,10 +12,9 @@ const Watchlist = () => {
 
     React.useEffect(() => {
         const fetchData = async (favourite: string[]) => {
-            const response = await fetch(
+            const { data } = await axios(
                 `https://api.coincap.io/v2/assets?ids=${favourite.join(',')}`,
             );
-            const data = await response.json();
             setData(data.data);
         };
         if (favourite.length) {

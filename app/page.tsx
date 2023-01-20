@@ -1,12 +1,13 @@
 import { Inter } from '@next/font/google';
 import CryptoElement from '@/components/CryptoElement';
 import React, { FC } from 'react';
+import axios from 'axios';
 
 const inter = Inter({ subsets: ['latin'] });
 
 const getData = async () => {
-    const response = await fetch('https://api.coincap.io/v2/assets?limit=20');
-    const data = await response.json();
+    const { data } = await axios('https://api.coincap.io/v2/assets?limit=20');
+
     if (!data) {
         throw new Error('Failed to fetch data');
     }
@@ -29,7 +30,6 @@ export interface dataItem {
 }
 
 const Home = async () => {
-    const sdlkkflk = 1234;
     const data: dataItem[] = await getData();
     return (
         <div className="container mx-50px px-[40px]">
