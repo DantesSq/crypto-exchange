@@ -6,8 +6,6 @@ import { useForm } from 'react-hook-form';
 
 interface FormData {
     email: string;
-    password: string;
-    confirmPassword: string;
 }
 
 const ResetPasswordPage = () => {
@@ -15,7 +13,9 @@ const ResetPasswordPage = () => {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<FormData>();
+    } = useForm<FormData>({
+        mode: 'onBlur',
+    });
     const onSubmit = handleSubmit((data) => console.log(data));
 
     return (

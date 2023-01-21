@@ -19,7 +19,7 @@ const SignUpPage = () => {
         handleSubmit,
         watch,
         formState: { errors },
-    } = useForm<FormData>();
+    } = useForm<FormData>({ mode: 'onBlur' });
     const onSubmit = handleSubmit((data) => console.log(data));
 
     const password = watch('password');

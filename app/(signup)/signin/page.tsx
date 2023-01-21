@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 interface FormData {
     email: string;
     password: string;
-    confirmPassword: string;
 }
 
 const SignInPage = () => {
@@ -17,7 +16,9 @@ const SignInPage = () => {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<FormData>();
+    } = useForm<FormData>({
+        mode: 'onBlur',
+    });
     const onSubmit = handleSubmit((data) => console.log(data));
 
     return (
