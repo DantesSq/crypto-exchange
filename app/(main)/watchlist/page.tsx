@@ -1,9 +1,10 @@
 'use client';
 import React from 'react';
-import CryptoElement from '@/components/CryptoElement';
+
 import { useAppSelector } from '@/hooks/redux';
 import { dataItem } from '../page';
 import axios from 'axios';
+import CryptoElement from '@/app/components/CryptoElement';
 
 const Watchlist = () => {
     const { favourite } = useAppSelector((state) => state.favouriteSlice);

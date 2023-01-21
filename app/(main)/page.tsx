@@ -1,7 +1,8 @@
 import { Inter } from '@next/font/google';
-import CryptoElement from '@/components/CryptoElement';
+
 import React, { FC } from 'react';
 import axios from 'axios';
+import CryptoElement from '../components/CryptoElement';
 
 const inter = Inter({ subsets: ['latin'] });
 
