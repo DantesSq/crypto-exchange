@@ -1,17 +1,25 @@
 'use client';
 
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { registerUser } from '@/store/users/usersSlice';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import { useForm } from 'react-hook-form';
 
-interface FormData {
+export interface FormDataRegister {
     email: string;
     password: string;
     confirmPassword: string;
 }
 
 const SignUpPage = () => {
+    const dispatch = useAppDispatch();
+    const router = useRouter();
+
+    const { users } = useAppSelector((state) => state.usersSlice);
+
     const [showPass, setShowPass] = React.useState(false);
 
     const {
@@ -19,8 +27,14 @@ const SignUpPage = () => {
         handleSubmit,
         watch,
         formState: { errors },
-    } = useForm<FormData>({ mode: 'onBlur' });
-    const onSubmit = handleSubmit((data) => console.log(data));
+    } = useForm<FormDataRegister>({ mode: 'onBlur' });
+    const onSubmit = handleSubmit((data) => {
+        const userExist = users.map((item) => item.email === data.email).includes(true);
+        if (!userExist) {
+            dispatch(registerUser(data));
+            router.push('/signin');
+        }
+    });
 
     const password = watch('password');
 

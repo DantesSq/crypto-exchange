@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-interface FormData {
+interface FormDataReset {
     email: string;
 }
 
@@ -13,10 +13,10 @@ const ResetPasswordPage = () => {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<FormData>({
+    } = useForm<FormDataReset>({
         mode: 'onBlur',
     });
-    const onSubmit = handleSubmit((data) => console.log(data));
+    const onSubmit = handleSubmit((data) => data);
 
     return (
         <div className="bg-white rounded px-[40px]">

@@ -1,25 +1,45 @@
 'use client';
 
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { loginUser } from '@/store/users/usersSlice';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-interface FormData {
+export interface FormDataLogin {
     email: string;
     password: string;
 }
 
 const SignInPage = () => {
+    const dispatch = useAppDispatch();
+    const router = useRouter();
+
     const [showPass, setShowPass] = React.useState(false);
+
+    const { authorized } = useAppSelector((state) => state.usersSlice);
+
+    React.useEffect(() => {
+        const authorization = () => {
+            if (authorized) {
+                router.push('/');
+            }
+        };
+
+        authorization();
+    }, [authorized]);
 
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<FormData>({
+    } = useForm<FormDataLogin>({
         mode: 'onBlur',
     });
-    const onSubmit = handleSubmit((data) => console.log(data));
+    const onSubmit = handleSubmit(async (data) => {
+        dispatch(loginUser(data));
+    });
 
     return (
         <div className="bg-white rounded px-[40px]">
