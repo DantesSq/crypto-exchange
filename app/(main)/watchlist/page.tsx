@@ -9,7 +9,7 @@ import CryptoElement from '@/app/components/CryptoElement';
 const Watchlist = () => {
     const { favourite } = useAppSelector((state) => state.favouriteSlice);
 
-    const [data, setData] = React.useState<dataItem[]>([]);
+    const [data, setData] = React.useState([]);
 
     React.useEffect(() => {
         const fetchData = async (favourite: string[]) => {
@@ -25,8 +25,8 @@ const Watchlist = () => {
 
     if (data.length)
         return (
-            <div className="container mx-50px px-[40px]">
-                <h1>Watchlist</h1>
+            <div className="container px-[40px] mt-4">
+                <h1 className="text-[20px] my-4">Your Watchlist</h1>
 
                 <div className="sort__items flex justify-between items-center h-[60px] border-y-2 border-grayL border-solid text-gray">
                     <div className="w-[5%]">#</div>
@@ -37,10 +37,10 @@ const Watchlist = () => {
                     <div className="w-[10%]">Volume 24h</div>
                 </div>
 
-                {data.map((item: dataItem, sequence: number) => (
+                {data.map((item: dataItem) => (
                     <CryptoElement
                         key={item.id}
-                        sequence={sequence + 1}
+                        rank={item.rank}
                         id={item.id}
                         symbol={item.symbol}
                         name={item.name}

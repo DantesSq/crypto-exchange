@@ -15,7 +15,7 @@ const Navigation = () => {
     };
 
     return (
-        <nav className="h-[100%] container mx-50px px-[40px] flex items-center justify-between text-black">
+        <nav className="h-[100%] container mx-50px px-[120px] flex items-center justify-between text-black">
             <ul className="h-[100%] flex justify-start items-center w-[33.33%]">
                 <Link className="px-[15px]  border-r-[2px] border-gray border-solid" href="/">
                     Dante Crypto Logo

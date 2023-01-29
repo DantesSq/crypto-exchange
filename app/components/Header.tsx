@@ -3,7 +3,7 @@ import Navigation from './Navigation';
 
 const Header = () => {
     return (
-        <header className="w-full bg-white text-text mb-8 h-[125px]">
+        <header className="w-full bg-white text-text h-[80px]">
             <Navigation />
         </header>
     );

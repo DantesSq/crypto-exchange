@@ -44,10 +44,10 @@ const Home = async () => {
             </div>
 
             {data &&
-                data.map((item: dataItem, sequence: number) => (
+                data.map((item: dataItem) => (
                     <CryptoElement
                         key={item.id}
-                        sequence={sequence + 1}
+                        rank={item.rank}
                         id={item.id}
                         symbol={item.symbol}
                         name={item.name}
