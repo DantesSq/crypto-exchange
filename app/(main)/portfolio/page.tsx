@@ -3,13 +3,20 @@
 import Balance from '@/app/components/Balance';
 import Exchange from '@/app/components/Exchange';
 import PortfolioItems from '@/app/components/PortfolioItems';
-import { useAppSelector } from '@/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+
 import React from 'react';
-
+import SignIn from './SignIn';
 const PortfolioPage = () => {
+    const dispatch = useAppDispatch();
     const { userInfo } = useAppSelector((state) => state.usersSlice);
-
-    if (!userInfo?.id) return <>sign in</>;
+    const { usersPortfolio } = useAppSelector((state) => state.portfolioSlice);
+    if (!userInfo?.id)
+        return (
+            <>
+                <SignIn />
+            </>
+        );
 
     return (
         <div className="bg-[#e6e9f2] min-h-[100vh] pt-[50px]">
@@ -18,7 +25,7 @@ const PortfolioPage = () => {
                     <Balance />
                     <PortfolioItems />
                 </div>
-                <Exchange />
+                {/* <Exchange /> */}
             </div>
         </div>
     );

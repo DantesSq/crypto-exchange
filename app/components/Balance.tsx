@@ -1,9 +1,41 @@
+'use client';
+import axios from 'axios';
 import React from 'react';
+import { dataItem } from '../(main)/page';
+import SearchComponent from './SearchComponent';
 
 const Balance = () => {
+    const [openMenu, setOpenMenu] = React.useState(false);
+
+    const addHoldings = () => {
+        setOpenMenu(true);
+    };
+
+    const [data, setData] = React.useState<dataItem[] | null>(null);
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+            const { data } = await axios(`https://api.coincap.io/v2/assets/?limit=20`);
+            setData(data.data);
+        };
+
+        fetchData();
+    }, []);
+
     return (
         <div className="p-[20px] h-[auto] bg-white rounded-xl w-[100%]">
-            <h1 className="text-[25px]">Portfolio</h1>
+            {openMenu && data && (
+                <SearchComponent data={data} openMenu={openMenu} setOpenMenu={setOpenMenu} />
+            )}
+
+            <div className="flex justify-between">
+                <h1 className="text-[25px]">Portfolio</h1>
+                <button
+                    onClick={addHoldings}
+                    className="bg-[#5367fe] text-white text-center py-[10px] px-[20px] h-[50px] rounded-2xl placeholder-white">
+                    Add Holdings
+                </button>
+            </div>
 
             <div className="lg:mt-[30px] md:flex md:justify-between text-black xl:flex-nowrap md:flex-wrap">
                 <div className="xl:w-[30%] flex xl:flex-col w-full lg:justify-around items-center">
@@ -35,7 +67,7 @@ const Balance = () => {
                     </div>
                     <div className="flex justify-between items-center">
                         <h1 className="lg:text-[30px] text-[25px] ml-[10px] mr-[10px] lg:ml-0">
-                            $390,000
+                            $0.00
                         </h1>
                         <div className="relative flex items-center p-[8px] mr-[10px] rounded text-text lg:text-[13px] text-[18px] bg-[#008dff] bg-opacity-10 hover:bg-opacity-30 hover:cursor-pointer">
                             <h1 className="lg:pr-[20px] pr-[35px]">Hide Price</h1>
@@ -114,7 +146,7 @@ const Balance = () => {
                             </svg>
                             Total investment
                         </div>
-                        <div className="mt-[20px] text-[18px]">$30,000</div>
+                        <div className="mt-[20px] text-[18px]">$0.00</div>
                     </div>
                     <div className="md:w-[28%] md:p-[10px] rounded bg-[#ff0900] bg-opacity-25 hover:bg-opacity-40">
                         <div className="flex items-center">
@@ -175,7 +207,7 @@ const Balance = () => {
                             </svg>
                             Total return
                         </div>
-                        <div className="mt-[20px] text-[18px]">$30,000</div>
+                        <div className="mt-[20px] text-[18px]">$0.00</div>
                     </div>
                     <div className="md:w-[28%] md:p-[10px] rounded bg-[#00ff79] bg-opacity-25 hover:bg-opacity-40">
                         <div className="flex items-center">
@@ -200,7 +232,7 @@ const Balance = () => {
                             </svg>
                             All Time Profit
                         </div>
-                        <div className="mt-[20px] text-[18px]">$30,000</div>
+                        <div className="mt-[20px] text-[18px]">$0.00</div>
                     </div>
                 </div>
             </div>

@@ -15,7 +15,7 @@ interface usersState {
 }
 
 const initialState: usersState = {
-    users: [{ id: 1, email: '333@gmail.com', password: '222222' }],
+    users: [{ id: 1, email: '111@gmail.com', password: '111111' }],
     authorized: false,
     userInfo: null,
 };
@@ -26,16 +26,14 @@ export const usersSlice = createSlice({
     reducers: {
         registerUser(state, action: PayloadAction<FormDataRegister>) {
             const { email, password } = action.payload;
-            const userExists = state.users.filter((item) => item.email == email);
-            if (!userExists.length) {
-                const newUser: user = {
-                    id: state.users.length + 1,
-                    email: email,
-                    password: password,
-                };
 
-                state.users.push(newUser);
-            }
+            const newUser: user = {
+                id: state.users.length + 1,
+                email: email,
+                password: password,
+            };
+
+            state.users.push(newUser);
         },
         loginUser(state, action: PayloadAction<FormDataLogin>) {
             const { email } = action.payload;

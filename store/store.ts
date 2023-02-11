@@ -1,7 +1,17 @@
+import portfolioSlice from './portfolio/portfolioSlice';
 import usersSlice from './users/usersSlice';
 import favouriteSlice from './favourite/favouriteSlice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { persistStore, persistReducer, PERSIST } from 'redux-persist';
+import {
+    persistStore,
+    persistReducer,
+    PERSIST,
+    FLUSH,
+    REHYDRATE,
+    PAUSE,
+    PURGE,
+    REGISTER,
+} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
@@ -12,6 +22,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
     favouriteSlice,
     usersSlice,
+    portfolioSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -22,7 +33,7 @@ export const setupStore = () => {
         middleware: (getDefaultMiddleware) =>
             getDefaultMiddleware({
                 serializableCheck: {
-                    ignoredActions: [PERSIST],
+                    ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
                 },
             }),
     });

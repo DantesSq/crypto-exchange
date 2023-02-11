@@ -1,4 +1,5 @@
 import React from 'react';
+import ExchangeItem from './ExchangeItem';
 
 const Exchange = () => {
     return (
@@ -32,7 +33,7 @@ const Exchange = () => {
                                 />
                             </g>
                         </svg>
-                        <h1 className="px-[10px] ">$38,500</h1>
+                        <h1 className="px-[10px] ">$0.00</h1>
                     </div>
                     <div className="flex items-center hover:text-[black] hover:cursor-pointer">
                         <img
@@ -41,93 +42,10 @@ const Exchange = () => {
                             width={25}
                             height={25}
                         />
-                        <h1 className="px-[8px]">$38,500</h1>
+                        <h1 className="px-[8px]">$0.00</h1>
                     </div>
                 </div>
-                <div className="mt-[30px] relative">
-                    <input
-                        className="w-full p-[15px] pt-[20px] border-2 border-gray border-solid rounded"
-                        value="1.0"
-                    />
-                    <div className="flex items-center hover:cursor-pointer absolute top-[50%] translate-y-[-50%] right-[10px] text-text text-[13px]">
-                        <img
-                            className="pr-[5px]"
-                            alt=""
-                            src={`https://assets.coincap.io/assets/icons/${'bTC'.toLowerCase()}@2x.png`}
-                            width={30}
-                            height={30}
-                        />
-                        <h1 className="px-[5px]">BTC</h1>
-                        <svg
-                            className="fill-gray"
-                            height="12px"
-                            width="12px"
-                            version="1.1"
-                            id="Layer_1"
-                            xmlns="http://www.w3.org/2000/svg"
-                            xmlnsXlink="http://www.w3.org/1999/xlink"
-                            viewBox="0 0 330 330"
-                            xmlSpace="preserve">
-                            <path
-                                id="XMLID_225_"
-                                d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
-	c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
-	s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z"
-                            />
-                        </svg>
-                    </div>
-                </div>
-
-                <svg
-                    className="w-full my-[10px]"
-                    width="30px"
-                    height="30px"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none">
-                    <path
-                        stroke="#000000"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M4 17h12M4 17l3.5-3.5M4 17l3.5 3.5M7 7h13m0 0l-3.5-3.5M20 7l-3.5 3.5"
-                    />
-                </svg>
-
-                <div className="relative">
-                    <input
-                        className="w-full p-[15px] pt-[20px] border-2 border-gray border-solid rounded"
-                        value="40,000"
-                    />
-                    <div className="flex items-center hover:cursor-pointer absolute top-[50%] translate-y-[-50%] right-[10px] text-text text-[13px]">
-                        <img
-                            className="pr-[5px]"
-                            alt=""
-                            src={`https://assets.coincap.io/assets/icons/${'usd'.toLowerCase()}@2x.png`}
-                            width={30}
-                            height={30}
-                        />
-                        <h1 className="px-[5px]">USD</h1>
-                        <svg
-                            className="fill-gray"
-                            height="12px"
-                            width="12px"
-                            version="1.1"
-                            id="Layer_1"
-                            xmlns="http://www.w3.org/2000/svg"
-                            xmlnsXlink="http://www.w3.org/1999/xlink"
-                            viewBox="0 0 330 330"
-                            xmlSpace="preserve">
-                            <path
-                                id="XMLID_225_"
-                                d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
-	c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
-	s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z"
-                            />
-                        </svg>
-                    </div>
-                </div>
-
+                <ExchangeItem />
                 <div>
                     <button className="bg-[#5367fe] text-white text-center w-full h-[50px] mt-[30px] rounded placeholder-white">
                         Exchange

@@ -1,6 +1,7 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { newPortfolio } from '@/store/portfolio/portfolioSlice';
 import { loginUser } from '@/store/users/usersSlice';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -18,17 +19,23 @@ const SignInPage = () => {
 
     const [showPass, setShowPass] = React.useState(false);
 
-    const { authorized } = useAppSelector((state) => state.usersSlice);
+    const { authorized, userInfo } = useAppSelector((state) => state.usersSlice);
+    const { usersPortfolio } = useAppSelector((state) => state.portfolioSlice);
+    const usersPortfolioIds = usersPortfolio.map((item) => item.id);
 
     React.useEffect(() => {
         const authorization = () => {
-            if (authorized) {
+            if (authorized && userInfo) {
                 router.push('/');
+
+                if (!usersPortfolioIds.includes(userInfo.id)) {
+                    dispatch(newPortfolio(userInfo.id));
+                }
             }
         };
 
         authorization();
-    }, [authorized]);
+    }, [authorized, userInfo]);
 
     const {
         register,
