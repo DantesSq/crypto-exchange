@@ -1,8 +1,9 @@
 'use client';
-import { useAppSelector } from '@/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { changeItem, changeOpenBuyMenu, changeOpenMenu } from '@/store/portfolio/portfolioSlice';
 import axios from 'axios';
 import React from 'react';
-import { dataItem } from '../(main)/page';
+import { dataItem } from '../../page';
 import PortfolioItem from './PortfolioItem';
 
 interface coin {
@@ -15,12 +16,23 @@ interface coin {
 }
 
 const PortfolioItems = () => {
+    const dispatch = useAppDispatch();
     const userId = useAppSelector((state) => state.usersSlice.userInfo?.id);
     const portfolio = useAppSelector(
         (state) => state.portfolioSlice.usersPortfolio.filter((item) => item.id === userId)[0],
     );
+
     const [coins, setCoins] = React.useState<coin[]>();
     const [data, setData] = React.useState<dataItem[]>();
+
+    const newTransaction = (symbol: string) => {
+        const item = data?.filter((item) => item.symbol.toLowerCase() === symbol.toLowerCase())[0];
+        if (item) {
+            dispatch(changeItem(item));
+            dispatch(changeOpenMenu(true));
+            dispatch(changeOpenBuyMenu(true));
+        }
+    };
 
     React.useEffect(() => {
         if (portfolio.coins) {
@@ -30,7 +42,7 @@ const PortfolioItems = () => {
                 const { data } = await axios(
                     `https://api.coincap.io/v2/assets?ids=${ids.join(',').toLowerCase()}`,
                 );
-                console.log(ids);
+
                 setData(data.data);
             };
             fetchData();
@@ -69,7 +81,7 @@ const PortfolioItems = () => {
                     ...item.transactions[0],
                 };
             });
-            console.log(data);
+
             setCoins(coins);
         }
     }, [data, portfolio.coins]);
@@ -82,13 +94,33 @@ const PortfolioItems = () => {
                 <div className="w-[20%]">Price / Avg buy</div>
                 <div className="w-[20%]">Holding Assets</div>
                 <div className="w-[20%]">Total Asset Value</div>
-                <div className="w-[20%]">Proffit / Loss</div>
+                <div className="w-[10%]">Proffit / Loss</div>
+                <div className="w-[10%]">Actions</div>
             </div>
-            <div className="pb-[20px]">
-                {coins?.length &&
-                    data &&
-                    coins.map((item) => <PortfolioItem key={item.id} {...item} />)}
-            </div>
+            {coins?.length && (
+                <>
+                    <div className="pb-[20px] border-b-2 border-grayL border-solid">
+                        {data &&
+                            coins.map((item) => (
+                                <PortfolioItem
+                                    key={item.id}
+                                    newTransaction={newTransaction}
+                                    {...item}
+                                />
+                            ))}
+                    </div>
+                    <div className="flex justify-between items-center py-[20px] text-gray">
+                        <h1>{coins.length} assets</h1>
+                        <div className="pagination flex">
+                            <h1>{'<'}</h1>
+                            <h1>1</h1>
+                            <h1>2</h1>
+                            <h1>3</h1>
+                            <h1>{'>'}</h1>
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 };

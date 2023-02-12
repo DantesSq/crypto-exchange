@@ -1,11 +1,21 @@
 'use client';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { changeOpenBuyMenu, changeOpenMenu } from '@/store/portfolio/portfolioSlice';
 import axios from 'axios';
 import React from 'react';
-import { dataItem } from '../(main)/page';
+import { dataItem } from '../../page';
 import SearchComponent from './SearchComponent';
 
 const Balance = () => {
-    const [openMenu, setOpenMenu] = React.useState(false);
+    const dispatch = useAppDispatch();
+    const { openMenu, openBuyMenu } = useAppSelector((state) => state.portfolioSlice);
+
+    const setOpenMenu = (arg: boolean) => {
+        dispatch(changeOpenMenu(arg));
+    };
+    const setOpenBuyMenu = (arg: boolean) => {
+        dispatch(changeOpenBuyMenu(arg));
+    };
 
     const addHoldings = () => {
         setOpenMenu(true);
@@ -15,17 +25,22 @@ const Balance = () => {
 
     React.useEffect(() => {
         const fetchData = async () => {
-            const { data } = await axios(`https://api.coincap.io/v2/assets/?limit=20`);
+            const { data } = await axios(`https://api.coincap.io/v2/assets/?limit=30`);
             setData(data.data);
         };
-
         fetchData();
     }, []);
 
     return (
-        <div className="p-[20px] h-[auto] bg-white rounded-xl w-[100%]">
+        <div className="p-[20px] h-[auto] bg-white rounded-xl w-[100%] ">
             {openMenu && data && (
-                <SearchComponent data={data} openMenu={openMenu} setOpenMenu={setOpenMenu} />
+                <SearchComponent
+                    setOpenBuyMenu={setOpenBuyMenu}
+                    setOpenMenu={setOpenMenu}
+                    data={data}
+                    openMenu={openMenu}
+                    openBuyMenu={openBuyMenu}
+                />
             )}
 
             <div className="flex justify-between">

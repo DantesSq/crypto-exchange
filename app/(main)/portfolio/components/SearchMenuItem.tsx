@@ -2,7 +2,7 @@ import { useAppDispatch } from '@/hooks/redux';
 import { changeItem } from '@/store/portfolio/portfolioSlice';
 
 import React, { FC } from 'react';
-import { dataItem } from '../(main)/page';
+import { dataItem } from '../../page';
 
 interface SearchMenuItemProps {
     setOpenBuyMenu: (arg: boolean) => void;

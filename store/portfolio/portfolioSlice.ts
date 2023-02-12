@@ -23,6 +23,8 @@ interface portfolio {
 interface portfolioState {
     usersPortfolio: portfolio[];
     currentItem: dataItem | null;
+    openMenu: boolean;
+    openBuyMenu: boolean;
     type: string;
 }
 
@@ -43,6 +45,8 @@ const initialState: portfolioState = {
         },
     ],
     currentItem: null,
+    openMenu: false,
+    openBuyMenu: false,
     type: 'buy',
 };
 
@@ -60,7 +64,17 @@ export const portfolioSlice = createSlice({
         changeType(state, action: PayloadAction<string>) {
             state.type = action.payload;
         },
-        addTransaction(state, action) {
+        addTransaction(
+            state,
+            action: PayloadAction<{
+                price: number;
+                quantity: number;
+                itemId: string;
+                userId: number;
+                symbol: string;
+                name: string;
+            }>,
+        ) {
             const { price, quantity, itemId, userId, symbol, name } = action.payload;
             const newTransaction = {
                 price: price,
@@ -84,9 +98,22 @@ export const portfolioSlice = createSlice({
                 }
             }
         },
+        changeOpenMenu(state, action: PayloadAction<boolean>) {
+            state.openMenu = action.payload;
+        },
+        changeOpenBuyMenu(state, action: PayloadAction<boolean>) {
+            state.openBuyMenu = action.payload;
+        },
     },
 });
 
-export const { newPortfolio, changeItem, changeType, addTransaction } = portfolioSlice.actions;
+export const {
+    changeOpenMenu,
+    changeOpenBuyMenu,
+    newPortfolio,
+    changeItem,
+    changeType,
+    addTransaction,
+} = portfolioSlice.actions;
 
 export default portfolioSlice.reducer;
