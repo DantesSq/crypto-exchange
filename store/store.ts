@@ -1,6 +1,7 @@
 import portfolioSlice from './portfolio/portfolioSlice';
 import usersSlice from './users/usersSlice';
 import favouriteSlice from './favourite/favouriteSlice';
+import paginationSlice from './pagination/paginationSlice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import {
     persistStore,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
     favouriteSlice,
     usersSlice,
     portfolioSlice,
+    paginationSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

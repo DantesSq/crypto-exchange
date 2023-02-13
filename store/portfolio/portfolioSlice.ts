@@ -1,10 +1,16 @@
 import { dataItem } from '@/app/(main)/page';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface transaction {
+export enum transactionTypes {
+    BUY = 'buy',
+    SELL = 'sell',
+}
+
+export interface transaction {
     price: number;
     quantity: number;
     total: number;
+    type: transactionTypes;
 }
 
 interface coin {
@@ -26,6 +32,7 @@ interface portfolioState {
     openMenu: boolean;
     openBuyMenu: boolean;
     type: string;
+    hide: boolean;
 }
 
 const initialState: portfolioState = {
@@ -39,7 +46,90 @@ const initialState: portfolioState = {
                     name: 'Ethereum',
                     symbol: 'eth',
 
-                    transactions: [{ price: 1200, quantity: 3, total: 3600 }],
+                    transactions: [
+                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                    ],
+                },
+                {
+                    id: 'bitcoin',
+                    name: 'Bitcoin',
+                    symbol: 'btc',
+
+                    transactions: [
+                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                    ],
+                },
+                {
+                    id: 'binance-coin',
+                    name: 'BNB',
+                    symbol: 'bnb',
+
+                    transactions: [
+                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                    ],
+                },
+                {
+                    id: 'polygon',
+                    name: 'Polygon',
+                    symbol: 'matic',
+
+                    transactions: [
+                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                    ],
+                },
+                {
+                    id: 'solana',
+                    name: 'Solana',
+                    symbol: 'sol',
+
+                    transactions: [
+                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                    ],
+                },
+                {
+                    id: 'polkadot',
+                    name: 'Polkadot',
+                    symbol: 'dot',
+
+                    transactions: [
+                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                    ],
+                },
+                {
+                    id: 'litecoin',
+                    name: 'Litecoin',
+                    symbol: 'LTC',
+
+                    transactions: [
+                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                    ],
+                },
+                {
+                    id: 'tron',
+                    name: 'TRON',
+                    symbol: 'trx',
+
+                    transactions: [
+                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                    ],
+                },
+                {
+                    id: 'avalanche',
+                    name: 'Avalanche',
+                    symbol: 'avax',
+
+                    transactions: [
+                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                    ],
+                },
+                {
+                    id: 'uniswap',
+                    name: 'Uniswap',
+                    symbol: 'uni',
+
+                    transactions: [
+                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                    ],
                 },
             ],
         },
@@ -48,6 +138,7 @@ const initialState: portfolioState = {
     openMenu: false,
     openBuyMenu: false,
     type: 'buy',
+    hide: false,
 };
 
 export const portfolioSlice = createSlice({
@@ -73,14 +164,17 @@ export const portfolioSlice = createSlice({
                 userId: number;
                 symbol: string;
                 name: string;
+                type: transactionTypes;
             }>,
         ) {
-            const { price, quantity, itemId, userId, symbol, name } = action.payload;
+            const { price, quantity, itemId, userId, symbol, name, type } = action.payload;
             const newTransaction = {
                 price: price,
                 quantity: quantity,
                 total: price * quantity,
+                type: type,
             };
+
             for (let i in state.usersPortfolio) {
                 if (state.usersPortfolio[i].id === userId) {
                     for (let y in state.usersPortfolio[i].coins) {
@@ -104,6 +198,9 @@ export const portfolioSlice = createSlice({
         changeOpenBuyMenu(state, action: PayloadAction<boolean>) {
             state.openBuyMenu = action.payload;
         },
+        changeHide(state) {
+            state.hide = !state.hide;
+        },
     },
 });
 
@@ -114,6 +211,7 @@ export const {
     changeItem,
     changeType,
     addTransaction,
+    changeHide,
 } = portfolioSlice.actions;
 
 export default portfolioSlice.reducer;

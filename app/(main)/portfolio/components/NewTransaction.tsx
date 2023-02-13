@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { addTransaction, changeType } from '@/store/portfolio/portfolioSlice';
+import { addTransaction, changeType, transactionTypes } from '@/store/portfolio/portfolioSlice';
 import React, { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -29,17 +29,20 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
     } = useForm<Inputs>({
         mode: 'onBlur',
     });
-
+    console.log(errors);
     const onSubmit = handleSubmit((data) => {
+        console.log(data);
         if (data.price && data.quantity && currentItem && userId) {
+            console.log(data);
             dispatch(
                 addTransaction({
-                    price: data.price,
-                    quantity: data.quantity,
+                    price: Number(data.price),
+                    quantity: Number(data.quantity),
                     itemId: currentItem.id,
                     userId: userId,
                     symbol: currentItem.symbol.toLowerCase(),
                     name: currentItem.name,
+                    type: type === 'buy' ? transactionTypes.BUY : transactionTypes.SELL,
                 }),
             );
             setOpenBuyMenu(false);
@@ -126,7 +129,6 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
                 <h1 className="text-[18px] px-[6px]">{currentItem?.name}</h1>
                 <h1 className="text-[18px]">{currentItem?.symbol}</h1>
             </div>
-            {/* DOWN - REACT HOOK FORM */}
             <form onSubmit={onSubmit}>
                 <div className="flex justify-between mt-[20px]">
                     <div className="w-[50%]">
@@ -160,15 +162,17 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
                             <input
                                 type="number"
                                 step="any"
+                                value={Number(price)}
                                 {...register('price', {
                                     required: 'Enter Price',
+                                    value: price,
                                     pattern: {
                                         value: /^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/g,
+
                                         message: 'Price must be greater than 0',
                                     },
                                     onChange: onChangePrice,
                                 })}
-                                value={price}
                                 className="text-[18px] border border-solid border-gray rounded pl-[15px] py-[4px] w-[95%]"
                             />
                         </div>

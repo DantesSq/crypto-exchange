@@ -2,12 +2,13 @@ import React, { FC } from 'react';
 
 interface PortfolioItemProps {
     id: string;
+    symbol: string;
     price: number;
     quantity: number;
     total: number;
-    symbol: string;
-    currentPrice: string;
+    currentPrice: number;
     newTransaction: (arg: string) => void;
+    hide: boolean;
 }
 
 const PortfolioItem: FC<PortfolioItemProps> = ({
@@ -17,14 +18,15 @@ const PortfolioItem: FC<PortfolioItemProps> = ({
     total,
     symbol,
     currentPrice,
+    hide,
     newTransaction,
 }) => {
     const currencyFormat = (number: number, n: number) => {
         return '$' + number.toFixed(n).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
     };
 
-    const currentTotal = Number(currentPrice) * quantity;
-    const percentChanges = (Number(currentPrice) / (price / 100) - 100).toFixed(0);
+    const currentTotal = currentPrice * quantity;
+    const percentChanges = (currentPrice / (price / 100) - 100).toFixed(0);
 
     const profitColor = percentChanges[0] === '-' ? 'text-[#df3939]' : 'text-[#3cba8d]';
     const symbolProfit = percentChanges[0] === '-' ? '' : '+';
@@ -46,23 +48,23 @@ const PortfolioItem: FC<PortfolioItemProps> = ({
             <div className="w-[20%]">
                 <div className="text-[18px] mt-[-5px]">{currentPrice}</div>
                 <div className="text-gray text-[14px] mt-[-5px]">
-                    {currencyFormat(Number(price), 2)}
+                    {hide ? '***' : currencyFormat(Number(price), 2)}
                 </div>
             </div>
-            <div className="w-[20%]">{quantity}</div>
-            <div className="w-[20%]">{currentTotal}</div>
+            <div className="w-[20%]">{hide ? '***' : quantity}</div>
+            <div className="w-[20%]">{hide ? '***' : currentTotal}</div>
             <div className={`w-[10%] ${profitColor}`}>
                 {symbolProfit}
                 {percentChanges} %
             </div>
             <div className="w-[10%] flex items-center">
                 <svg
-                    className="hover:cursor-pointer"
+                    className="hover:cursor-pointer p-[3px] rounded-[50%] hover:border-[2px] hover:border-grayL hover:shadow-lg"
                     onClick={() => {
                         newTransaction(symbol);
                     }}
-                    width="18px"
-                    height="18px"
+                    width="26px"
+                    height="26px"
                     viewBox="0 0 1024 1024"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -71,9 +73,9 @@ const PortfolioItem: FC<PortfolioItemProps> = ({
                     />
                 </svg>
                 <svg
-                    className="hover:cursor-pointer"
-                    width="20px"
-                    height="20px"
+                    className="hover:cursor-pointer p-[3px] rounded-[50%] hover:border-[2px] hover:border-grayL hover:shadow-lg"
+                    width="26px"
+                    height="26px"
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg">
