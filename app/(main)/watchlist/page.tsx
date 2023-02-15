@@ -2,28 +2,33 @@
 import React from 'react';
 
 import { useAppSelector } from '@/hooks/redux';
-import { dataItem } from '../page';
 import axios from 'axios';
 import CryptoElement from '@/app/components/CryptoElement';
+import { cryptoItem } from '@/models/cryptoItem';
+import { CryptoApi } from '@/services/CryptoService';
 
 const Watchlist = () => {
     const { favourite } = useAppSelector((state) => state.favouriteSlice);
 
-    const [data, setData] = React.useState([]);
+    const [ids, setIds] = React.useState('');
+    // const [data, setData] = React.useState([]);
+
+    const { data } = CryptoApi.useFetchCryptoByIdsQuery(ids);
 
     React.useEffect(() => {
-        const fetchData = async (favourite: string[]) => {
-            const { data } = await axios(
-                `https://api.coincap.io/v2/assets?ids=${favourite.join(',')}`,
-            );
-            setData(data.data);
-        };
+        // const fetchData = async (favourite: string[]) => {
+        //     const { data } = await axios(
+        //         `https://api.coincap.io/v2/assets?ids=${favourite.join(',')}`,
+        //     );
+        //     setData(data.data);
+        // };
         if (favourite.length) {
-            fetchData(favourite);
-        } else setData([]);
+            setIds(favourite.join(','));
+            // fetchData(favourite);
+        }
     }, [favourite]);
 
-    if (data.length)
+    if (data && data.data.length)
         return (
             <div className="container px-[40px] mt-4">
                 <h1 className="text-[20px] my-4">Your Watchlist</h1>
@@ -37,7 +42,7 @@ const Watchlist = () => {
                     <div className="w-[10%]">Volume 24h</div>
                 </div>
 
-                {data.map((item: dataItem) => (
+                {data.data.map((item: cryptoItem) => (
                     <CryptoElement
                         key={item.id}
                         rank={item.rank}

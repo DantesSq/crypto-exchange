@@ -1,7 +1,8 @@
+import { cryptoItem } from '@/models/cryptoItem';
 import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
 import { FC } from 'react';
-import { dataItem } from '../../page';
+
 import FindCoin from './FindCoin';
 import NewTransaction from './NewTransaction';
 
@@ -42,7 +43,7 @@ const dropIn = {
 };
 
 interface SearchComponentProps {
-    data: dataItem[];
+    data: cryptoItem[];
     openMenu: boolean;
     openBuyMenu: boolean;
     setOpenMenu: (openMenu: boolean) => void;

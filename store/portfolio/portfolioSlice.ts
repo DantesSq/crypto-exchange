@@ -1,4 +1,4 @@
-import { dataItem } from '@/app/(main)/page';
+import { cryptoItem } from '@/models/cryptoItem';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export enum transactionTypes {
@@ -23,15 +23,18 @@ interface coin {
 interface portfolio {
     id: number;
     balance: number;
+    profit: number;
+    investment: number;
+    totalReturn: number;
     coins: coin[];
 }
 
 interface portfolioState {
     usersPortfolio: portfolio[];
-    currentItem: dataItem | null;
+    currentItem: cryptoItem | null;
     openMenu: boolean;
     openBuyMenu: boolean;
-    type: string;
+    type: transactionTypes;
     hide: boolean;
 }
 
@@ -39,7 +42,10 @@ const initialState: portfolioState = {
     usersPortfolio: [
         {
             id: 1,
-            balance: 10000,
+            balance: 0,
+            profit: 0,
+            investment: 0,
+            totalReturn: 0,
             coins: [
                 {
                     id: 'ethereum',
@@ -137,7 +143,7 @@ const initialState: portfolioState = {
     currentItem: null,
     openMenu: false,
     openBuyMenu: false,
-    type: 'buy',
+    type: transactionTypes.BUY,
     hide: false,
 };
 
@@ -147,12 +153,19 @@ export const portfolioSlice = createSlice({
     reducers: {
         newPortfolio(state, action: PayloadAction<number>) {
             const id = action.payload;
-            state.usersPortfolio.push({ id: id, balance: 0, coins: [] });
+            state.usersPortfolio.push({
+                id: id,
+                balance: 0,
+                profit: 0,
+                investment: 0,
+                totalReturn: 0,
+                coins: [],
+            });
         },
-        changeItem(state, action: PayloadAction<dataItem>) {
+        changeItem(state, action: PayloadAction<cryptoItem>) {
             state.currentItem = action.payload;
         },
-        changeType(state, action: PayloadAction<string>) {
+        changeType(state, action: PayloadAction<transactionTypes>) {
             state.type = action.payload;
         },
         addTransaction(
@@ -201,6 +214,23 @@ export const portfolioSlice = createSlice({
         changeHide(state) {
             state.hide = !state.hide;
         },
+
+        setTotals(
+            state,
+            action: PayloadAction<{
+                userId: number;
+                investment: number;
+                balance: number;
+                profit: number;
+                totalReturn: number;
+            }>,
+        ) {
+            const { userId, balance, profit, investment, totalReturn } = action.payload;
+            state.usersPortfolio[userId - 1].balance = balance;
+            state.usersPortfolio[userId - 1].profit = profit;
+            state.usersPortfolio[userId - 1].investment = investment;
+            state.usersPortfolio[userId - 1].totalReturn = totalReturn;
+        },
     },
 });
 
@@ -212,6 +242,7 @@ export const {
     changeType,
     addTransaction,
     changeHide,
+    setTotals,
 } = portfolioSlice.actions;
 
 export default portfolioSlice.reducer;

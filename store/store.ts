@@ -1,3 +1,4 @@
+import { CryptoApi } from './../services/CryptoService';
 import portfolioSlice from './portfolio/portfolioSlice';
 import usersSlice from './users/usersSlice';
 import favouriteSlice from './favourite/favouriteSlice';
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
     usersSlice,
     portfolioSlice,
     paginationSlice,
+    [CryptoApi.reducerPath]: CryptoApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -37,7 +39,7 @@ export const setupStore = () => {
                 serializableCheck: {
                     ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
                 },
-            }),
+            }).concat(CryptoApi.middleware),
     });
 };
 

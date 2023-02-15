@@ -1,11 +1,23 @@
 'use client';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { setCurrentPage, setNextPage, setPages, setPrevPage } from '@/store/pagination/paginationSlice';
-import { changeItem, changeOpenBuyMenu, changeOpenMenu } from '@/store/portfolio/portfolioSlice';
-import axios from 'axios';
 import React from 'react';
-import { dataItem } from '../../page';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import {
+    setCurrentPage,
+    setNextPage,
+    setPages,
+    setPrevPage,
+} from '@/store/pagination/paginationSlice';
+import {
+    changeItem,
+    changeOpenBuyMenu,
+    changeOpenMenu,
+    setTotals,
+    transactionTypes,
+} from '@/store/portfolio/portfolioSlice';
+import axios from 'axios';
 import PortfolioItem from './PortfolioItem';
+import { cryptoItem } from '@/models/cryptoItem';
+import { CryptoApi } from '@/services/CryptoService';
 
 interface coin {
     id: string;
@@ -14,6 +26,7 @@ interface coin {
     quantity: number;
     total: number;
     currentPrice: number;
+    totalReturn: number;
 }
 
 const PortfolioItems = () => {
@@ -27,11 +40,15 @@ const PortfolioItems = () => {
     );
 
     const [coins, setCoins] = React.useState<coin[]>();
-    const [data, setData] = React.useState<dataItem[]>();
-    
+    const [ids, setIds] = React.useState('');
+    // const [data, setData] = React.useState<cryptoItem[]>();
+
+    const { data } = CryptoApi.useFetchCryptoByIdsQuery(ids);
 
     const newTransaction = (symbol: string) => {
-        const item = data?.filter((item) => item.symbol.toLowerCase() === symbol.toLowerCase())[0];
+        const item = data?.data.filter(
+            (item) => item.symbol.toLowerCase() === symbol.toLowerCase(),
+        )[0];
         if (item) {
             dispatch(changeItem(item));
             dispatch(changeOpenMenu(true));
@@ -40,41 +57,86 @@ const PortfolioItems = () => {
     };
 
     React.useEffect(() => {
+        if (coins && userId) {
+            const totalInvestment = coins.reduce((item, prev) => item + prev.total, 0);
+            const totalReturn = coins.reduce((item, prev) => item + prev.totalReturn, 0);
+            const totalBalance = coins.reduce(
+                (item, prev) => item + prev.quantity * prev.currentPrice,
+                0,
+            );
+            const buyTotal = coins.reduce((item, prev) => item + prev.quantity * prev.price, 0);
+            const totalProfit = totalBalance - buyTotal;
+
+            dispatch(
+                setTotals({
+                    userId: userId,
+                    investment: totalInvestment,
+                    balance: totalBalance,
+                    profit: totalProfit,
+                    totalReturn: totalReturn,
+                }),
+            );
+        }
+    }, [coins]);
+
+    React.useEffect(() => {
         if (portfolio.coins) {
-            const ids = portfolio.coins.map((item) => item.id);
+            const ids = portfolio.coins
+                .map((item) => item.id)
+                .join(',')
+                .toLowerCase();
+            setIds(ids);
 
-            const fetchData = async () => {
-                const { data } = await axios(
-                    `https://api.coincap.io/v2/assets?ids=${ids.join(',').toLowerCase()}`,
-                );
+            // const fetchData = async () => {
+            //     const { data } = await axios(
+            //         `https://api.coincap.io/v2/assets?ids=${ids.join(',').toLowerCase()}`,
+            //     );
 
-                setData(data.data);
-            };
-            fetchData();
+            //     setData(data.data);
+            // };
+            // fetchData();
 
-            const amountPages = Math.ceil(portfolio.coins.length/itemsPerPage);
-            if (amountPages) {
-              
-                dispatch(setPages(amountPages));
-            }
+            const amountPages = Math.ceil(portfolio.coins.length / itemsPerPage);
+            dispatch(setPages(amountPages));
         }
     }, [portfolio.coins]);
     React.useEffect(() => {
         if (data) {
             const coins = portfolio.coins.map((item) => {
-                const currentPrice = data?.filter(
-                    (dataItem) => dataItem.symbol.toLowerCase() === item.symbol.toLowerCase(),
+                const currentPrice = data?.data.filter(
+                    (cryptoItem) => cryptoItem.symbol.toLowerCase() === item.symbol.toLowerCase(),
                 )[0]?.priceUsd;
 
                 if (item.transactions.length > 1) {
-                    const totalPrices = item.transactions
-                        .map((item) => item.total)
+                    const buyTransactions = item.transactions.filter(
+                        (item) => item.type === transactionTypes.BUY,
+                    );
+                    const sellTransactions = item.transactions.filter(
+                        (item) => item.type === transactionTypes.SELL,
+                    );
+
+                    const totalBuyPrices = buyTransactions
+                        .map((item) => {
+                            return item.total;
+                        })
                         .reduce((item, prev) => item + prev, 0);
-                    const quantity = item.transactions
+
+                    const totalSellPrices = sellTransactions
+                        .map((item) => {
+                            return item.total;
+                        })
+                        .reduce((item, prev) => item + prev, 0);
+
+                    const quantityBuy = buyTransactions
                         .map((item) => item.quantity)
                         .reduce((item, prev) => item + prev, 0);
-                    console.log(item.transactions, quantity)
-                    const avgBuy = totalPrices / quantity;
+
+                    const quantitySell = sellTransactions
+                        .map((item) => item.quantity)
+                        .reduce((item, prev) => item + prev, 0);
+
+                    const quantity = quantityBuy - quantitySell;
+                    const avgBuy = totalBuyPrices / quantityBuy;
 
                     return {
                         id: item.name,
@@ -82,13 +144,15 @@ const PortfolioItems = () => {
                         currentPrice: Number(Number(currentPrice).toFixed(2)),
                         price: avgBuy,
                         quantity: quantity,
-                        total: totalPrices,
+                        total: totalBuyPrices,
+                        totalReturn: totalSellPrices,
                     };
                 }
                 return {
                     id: item.name,
                     symbol: item.symbol,
                     currentPrice: Number(Number(currentPrice).toFixed(2)),
+                    totalReturn: 0,
                     ...item.transactions[0],
                 };
             });
@@ -108,31 +172,35 @@ const PortfolioItems = () => {
                 <div className="w-[10%]">Proffit / Loss</div>
                 <div className="w-[10%]">Actions</div>
             </div>
-            {coins?.length &&(
+            {coins?.length && (
                 <>
                     <div className="pb-[20px] border-b-2 border-grayL border-solid">
                         {data &&
                             coins.map((item, id) => {
-                                
-if (Math.ceil((id + 1) / itemsPerPage) === currentPage) {
-
-    return <PortfolioItem
-         key={item.id}
-         newTransaction={newTransaction}
-         hide={hide}
-         {...item}
-     />
-}
-})}
+                                if (Math.ceil((id + 1) / itemsPerPage) === currentPage) {
+                                    return (
+                                        <PortfolioItem
+                                            key={item.id}
+                                            newTransaction={newTransaction}
+                                            hide={hide}
+                                            {...item}
+                                        />
+                                    );
+                                }
+                            })}
                     </div>
                     <div className="flex justify-between items-center text-center py-[20px]">
                         <h1>{coins.length} assets</h1>
-                        <div className="pagination flex space-x-[20px]">
+                        <div className=" flex space-x-[20px]">
                             <svg
-                            onClick={()=>{
-                                dispatch(setPrevPage())
-                            }}
-                                className={`p-[5px] w-[25px] h-[25px] rounded hover:cursor-pointer ${currentPage>1 ? 'fill-primaryL border-[2px] border-solid border-primaryL ' : 'fill-gray'}`}
+                                onClick={() => {
+                                    dispatch(setPrevPage());
+                                }}
+                                className={`p-[5px] w-[25px] h-[25px] rounded hover:cursor-pointer ${
+                                    currentPage > 1
+                                        ? 'fill-primaryL border-[2px] border-solid border-primaryL '
+                                        : 'fill-gray'
+                                }`}
                                 viewBox="0 0 1920 1920"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -140,19 +208,33 @@ if (Math.ceil((id + 1) / itemsPerPage) === currentPage) {
                                     fillRule="evenodd"
                                 />
                             </svg>
-<div className='flex justify-between space-x-[8px]'>
-
-                            {pages?.map((_item, id) => {
-                                return <div className={`text-[18px] hover:cursor-pointer ${id+1 === currentPage ? 'text-[#000000]' : 'text-gray'}`} key={id} 
-                                onClick={()=>{dispatch(setCurrentPage(id+1))}}>{id + 1}</div>;
-                            })}
-</div>
+                            <div className="flex justify-between space-x-[8px]">
+                                {pages?.map((_item, id) => {
+                                    return (
+                                        <div
+                                            className={`text-[18px] hover:cursor-pointer ${
+                                                id + 1 === currentPage
+                                                    ? 'text-[#000000]'
+                                                    : 'text-gray'
+                                            }`}
+                                            key={id}
+                                            onClick={() => {
+                                                dispatch(setCurrentPage(id + 1));
+                                            }}>
+                                            {id + 1}
+                                        </div>
+                                    );
+                                })}
+                            </div>
                             <svg
-                            onClick={()=>{
-                                dispatch(setNextPage(portfolio.coins.length))
-                            }}
-                            className={`p-[5px] w-[25px] h-[25px] rounded hover:cursor-pointer ${currentPage<pages.length ? 'fill-primaryL border-[2px] border-solid border-primaryL ' : 'fill-gray'}`}
-                                
+                                onClick={() => {
+                                    dispatch(setNextPage(portfolio.coins.length));
+                                }}
+                                className={`p-[5px] w-[25px] h-[25px] rounded hover:cursor-pointer ${
+                                    currentPage < pages.length
+                                        ? 'fill-primaryL border-[2px] border-solid border-primaryL '
+                                        : 'fill-gray'
+                                }`}
                                 viewBox="0 0 1920 1920"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -162,7 +244,7 @@ if (Math.ceil((id + 1) / itemsPerPage) === currentPage) {
                             </svg>
                         </div>
                     </div>
-                </>,
+                </>
             )}
         </div>
     );

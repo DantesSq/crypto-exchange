@@ -46,7 +46,7 @@ const PortfolioItem: FC<PortfolioItemProps> = ({
                 </h1>
             </div>
             <div className="w-[20%]">
-                <div className="text-[18px] mt-[-5px]">{currentPrice}</div>
+                <div className="text-[18px] mt-[-5px]">{currencyFormat(currentPrice, 2)}</div>
                 <div className="text-gray text-[14px] mt-[-5px]">
                     {hide ? '***' : currencyFormat(Number(price), 2)}
                 </div>

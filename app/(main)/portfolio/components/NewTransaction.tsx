@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { addTransaction, changeType, transactionTypes } from '@/store/portfolio/portfolioSlice';
 import React, { FC } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 interface NewTransactionProps {
     setOpenMenu: (arg: boolean) => void;
@@ -24,16 +24,14 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
 
     const {
         register,
+        control,
         handleSubmit,
         formState: { errors },
     } = useForm<Inputs>({
         mode: 'onBlur',
     });
-    console.log(errors);
     const onSubmit = handleSubmit((data) => {
-        console.log(data);
         if (data.price && data.quantity && currentItem && userId) {
-            console.log(data);
             dispatch(
                 addTransaction({
                     price: Number(data.price),
@@ -42,9 +40,10 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
                     userId: userId,
                     symbol: currentItem.symbol.toLowerCase(),
                     name: currentItem.name,
-                    type: type === 'buy' ? transactionTypes.BUY : transactionTypes.SELL,
+                    type: type,
                 }),
             );
+            dispatch(changeType(transactionTypes.BUY));
             setOpenBuyMenu(false);
             setOpenMenu(false);
         }
@@ -73,6 +72,7 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
                     className="absolute top-[12px] right-[45px] hover:cursor-pointer"
                     onClick={() => {
                         setOpenBuyMenu(false);
+                        dispatch(changeType(transactionTypes.BUY));
                     }}
                     width="30px"
                     height="30px"
@@ -98,7 +98,7 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
             <div className="flex items-center justify-center">
                 <button
                     onClick={() => {
-                        dispatch(changeType('buy'));
+                        dispatch(changeType(transactionTypes.BUY));
                     }}
                     className={`text-center text-[18px] pb-[20px] mb-[20px] mx-[10px] hover:cursor-pointer ${
                         type === 'buy'
@@ -109,7 +109,7 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
                 </button>
                 <button
                     onClick={() => {
-                        dispatch(changeType('sell'));
+                        dispatch(changeType(transactionTypes.SELL));
                     }}
                     className={`text-center text-[18px] pb-[20px] mb-[20px] mx-[10px] hover:cursor-pointer ${
                         type === 'buy'
@@ -162,10 +162,10 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
                             <input
                                 type="number"
                                 step="any"
-                                value={Number(price)}
+                                placeholder="0.00"
+                                defaultValue={Number(currentItem?.priceUsd).toFixed(2)}
                                 {...register('price', {
                                     required: 'Enter Price',
-                                    value: price,
                                     pattern: {
                                         value: /^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/g,
 

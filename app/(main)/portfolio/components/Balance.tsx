@@ -1,17 +1,24 @@
 'use client';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { changeHide, changeOpenBuyMenu, changeOpenMenu } from '@/store/portfolio/portfolioSlice';
-import axios from 'axios';
+import { cryptoItem } from '@/models/cryptoItem';
+import { CryptoApi } from '@/services/CryptoService';
+import {
+    changeHide,
+    changeOpenBuyMenu,
+    changeOpenMenu,
+    transactionTypes,
+} from '@/store/portfolio/portfolioSlice';
+
 import React from 'react';
-import { dataItem } from '../../page';
 import SearchComponent from './SearchComponent';
 
-const Balance = () => {
-    const currencyFormat = (number: number, n: number) => {
-        return '$' + number.toFixed(n).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-    };
+const currencyFormat = (number: number, n: number) => {
+    return '$' + number.toFixed(n).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+};
 
+const Balance = () => {
     const dispatch = useAppDispatch();
+    const { data } = CryptoApi.useFetchCryptoQuery(20);
     const { openMenu, openBuyMenu, hide } = useAppSelector((state) => state.portfolioSlice);
     const userId = useAppSelector((state) => state.usersSlice.userInfo?.id);
 
@@ -19,13 +26,7 @@ const Balance = () => {
         (state) => state.portfolioSlice.usersPortfolio.filter((item) => item.id === userId)[0],
     );
 
-    const totalInvestment = portfolio.coins
-        .map((item) => {
-            return item.transactions
-                .map((item) => item.total)
-                .reduce((item, prev) => item + prev, 0);
-        })
-        .reduce((item, prev) => item + prev, 0);
+    const { balance, profit, investment, totalReturn } = portfolio;
 
     const setOpenMenu = (arg: boolean) => {
         dispatch(changeOpenMenu(arg));
@@ -38,23 +39,13 @@ const Balance = () => {
         setOpenMenu(true);
     };
 
-    const [data, setData] = React.useState<dataItem[] | null>(null);
-
-    React.useEffect(() => {
-        const fetchData = async () => {
-            const { data } = await axios(`https://api.coincap.io/v2/assets/?limit=30`);
-            setData(data.data);
-        };
-        fetchData();
-    }, []);
-
     return (
         <div className="p-[20px] h-[auto] bg-white rounded-xl w-[100%] ">
             {openMenu && data && (
                 <SearchComponent
                     setOpenBuyMenu={setOpenBuyMenu}
                     setOpenMenu={setOpenMenu}
-                    data={data}
+                    data={data.data}
                     openMenu={openMenu}
                     openBuyMenu={openBuyMenu}
                 />
@@ -99,7 +90,7 @@ const Balance = () => {
                     </div>
                     <div className="flex justify-between items-center">
                         <h1 className="lg:text-[30px] text-[25px] ml-[10px] mr-[10px] lg:ml-0">
-                            {hide ? '***' : '$0.00'}
+                            {hide ? '***' : currencyFormat(balance, 2)}
                         </h1>
                         <div
                             onClick={() => {
@@ -199,7 +190,7 @@ const Balance = () => {
                             Total investment
                         </div>
                         <div className="mt-[20px] text-[18px]">
-                            {hide ? '***' : currencyFormat(totalInvestment, 2)}
+                            {hide ? '***' : currencyFormat(investment, 2)}
                         </div>
                     </div>
                     <div className="md:w-[28%] md:p-[10px] rounded bg-[#ff0900] bg-opacity-25 hover:bg-opacity-40">
@@ -261,7 +252,9 @@ const Balance = () => {
                             </svg>
                             Total return
                         </div>
-                        <div className="mt-[20px] text-[18px]">{hide ? '***' : '$0.00'}</div>
+                        <div className="mt-[20px] text-[18px]">
+                            {hide ? '***' : currencyFormat(totalReturn, 2)}
+                        </div>
                     </div>
                     <div className="md:w-[28%] md:p-[10px] rounded bg-[#00ff79] bg-opacity-25 hover:bg-opacity-40">
                         <div className="flex items-center">
@@ -284,9 +277,11 @@ const Balance = () => {
                                     />
                                 </g>
                             </svg>
-                            All Time Profit
+                            Profit
                         </div>
-                        <div className="mt-[20px] text-[18px]">{hide ? '***' : '$0.00'}</div>
+                        <div className="mt-[20px] text-[18px]">
+                            {hide ? '***' : currencyFormat(profit, 2)}
+                        </div>
                     </div>
                 </div>
             </div>

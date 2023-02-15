@@ -1,11 +1,11 @@
+import { cryptoItem } from '@/models/cryptoItem';
 import React, { FC } from 'react';
-import { dataItem } from '../../page';
 import SearchMenuItem from './SearchMenuItem';
 
 interface FindCoinProps {
     setOpenMenu: (arg: boolean) => void;
     setOpenBuyMenu: (arg: boolean) => void;
-    data: dataItem[];
+    data: cryptoItem[];
 }
 
 const FindCoin: FC<FindCoinProps> = ({ setOpenMenu, setOpenBuyMenu, data }) => {
@@ -18,7 +18,7 @@ py-[5px] pl-[10px] my-[5px]"
             />
 
             {data &&
-                data.map((item: dataItem) => (
+                data.map((item: cryptoItem) => (
                     <SearchMenuItem key={item.id} setOpenBuyMenu={setOpenBuyMenu} item={item} />
                 ))}
         </div>

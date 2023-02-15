@@ -1,12 +1,12 @@
 import { useAppDispatch } from '@/hooks/redux';
+import { cryptoItem } from '@/models/cryptoItem';
 import { changeItem } from '@/store/portfolio/portfolioSlice';
 
 import React, { FC } from 'react';
-import { dataItem } from '../../page';
 
 interface SearchMenuItemProps {
     setOpenBuyMenu: (arg: boolean) => void;
-    item: dataItem;
+    item: cryptoItem;
 }
 
 const SearchMenuItem: FC<SearchMenuItemProps> = ({ setOpenBuyMenu, item }) => {
