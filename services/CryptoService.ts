@@ -1,15 +1,5 @@
-import { cryptoItem } from '@/models/cryptoItem';
 import { data } from '@/models/data';
-import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions';
-import {
-    BaseQueryFn,
-    createApi,
-    EndpointDefinitions,
-    FetchArgs,
-    fetchBaseQuery,
-    FetchBaseQueryError,
-    FetchBaseQueryMeta,
-} from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const CryptoApi = createApi({
     reducerPath: 'CryptoApi',
@@ -31,7 +21,17 @@ export const CryptoApi = createApi({
                 },
             }),
         }),
+        fetchCryptoBySearch: build.query<data, string>({
+            query: (search: string) => ({
+                url: '',
+                params: {
+                    limit: 20,
+                    search: search,
+                },
+            }),
+        }),
     }),
 });
 
-export const { useFetchCryptoQuery } = CryptoApi;
+export const { useFetchCryptoQuery, useFetchCryptoByIdsQuery, useFetchCryptoBySearchQuery } =
+    CryptoApi;

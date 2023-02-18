@@ -1,4 +1,3 @@
-import { cryptoItem } from '@/models/cryptoItem';
 import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
 import { FC } from 'react';
@@ -43,7 +42,6 @@ const dropIn = {
 };
 
 interface SearchComponentProps {
-    data: cryptoItem[];
     openMenu: boolean;
     openBuyMenu: boolean;
     setOpenMenu: (openMenu: boolean) => void;
@@ -51,7 +49,6 @@ interface SearchComponentProps {
 }
 
 const SearchComponent: FC<SearchComponentProps> = ({
-    data,
     setOpenMenu,
     openBuyMenu,
     setOpenBuyMenu,
@@ -90,11 +87,7 @@ const SearchComponent: FC<SearchComponentProps> = ({
                         />
                     </svg>
                     {!openBuyMenu ? (
-                        <FindCoin
-                            setOpenMenu={setOpenMenu}
-                            setOpenBuyMenu={setOpenBuyMenu}
-                            data={data}
-                        />
+                        <FindCoin setOpenMenu={setOpenMenu} setOpenBuyMenu={setOpenBuyMenu} />
                     ) : (
                         <NewTransaction setOpenBuyMenu={setOpenBuyMenu} setOpenMenu={setOpenMenu} />
                     )}

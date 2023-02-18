@@ -1,6 +1,8 @@
 'use client';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { changeFavourite } from '@/store/favourite/favouriteSlice';
+import { currencyFormat } from '@/utils/CurrencyFormat';
+import { setSrcPlaceholder } from '@/utils/SetSrcPlaceholder';
 import React, { FC } from 'react';
 
 interface CryptoElementProps {
@@ -28,13 +30,9 @@ const CryptoElement: FC<CryptoElementProps> = ({
 
     const { favourite } = useAppSelector((state) => state.favouriteSlice);
 
-    const profitColor = changePercent24Hr[0] === '-' ? 'text-[#df3939]' : 'text-[#3cba8d]';
+    const profitColor = changePercent24Hr[0] === '-' ? 'text-red' : 'text-green';
     const symbolProfit = changePercent24Hr[0] === '-' ? '' : '+';
     const isFavourite = favourite.includes(id) ? '#f6b87e' : '#d6d6d6';
-
-    const currencyFormat = (number: number, n: number) => {
-        return '$' + number.toFixed(n).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-    };
 
     const addToFavourite = () => {
         dispatch(changeFavourite(id));
@@ -69,6 +67,7 @@ const CryptoElement: FC<CryptoElementProps> = ({
                 <img
                     alt=""
                     src={`https://assets.coincap.io/assets/icons/${symbol.toLowerCase()}@2x.png`}
+                    onError={setSrcPlaceholder}
                     width={25}
                     height={25}
                 />
@@ -77,13 +76,13 @@ const CryptoElement: FC<CryptoElementProps> = ({
                     {symbol}
                 </h1>
             </div>
-            <div className="w-[10%]">{currencyFormat(Number(priceUsd), 2)}</div>
+            <div className="w-[10%]">{currencyFormat(Number(priceUsd))}</div>
             <div className={`w-[5%] ${profitColor}`}>
                 {symbolProfit}
                 {Number(changePercent24Hr).toFixed(2)} %
             </div>
-            <div className="w-[15%]">{currencyFormat(Number(marketCapUsd), 0)}</div>
-            <div className="w-[10%]">{currencyFormat(Number(volumeUsd24Hr), 0)}</div>
+            <div className="w-[15%]">{currencyFormat(Number(marketCapUsd))}</div>
+            <div className="w-[10%]">{currencyFormat(Number(volumeUsd24Hr))}</div>
         </div>
     );
 };

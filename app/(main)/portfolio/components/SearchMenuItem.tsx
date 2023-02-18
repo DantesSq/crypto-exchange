@@ -1,6 +1,7 @@
 import { useAppDispatch } from '@/hooks/redux';
 import { cryptoItem } from '@/models/cryptoItem';
 import { changeItem } from '@/store/portfolio/portfolioSlice';
+import { setSrcPlaceholder } from '@/utils/SetSrcPlaceholder';
 
 import React, { FC } from 'react';
 
@@ -16,6 +17,7 @@ const SearchMenuItem: FC<SearchMenuItemProps> = ({ setOpenBuyMenu, item }) => {
         dispatch(changeItem(item));
         setOpenBuyMenu(true);
     };
+
     return (
         <div
             onClick={onClickItem}
@@ -23,6 +25,7 @@ const SearchMenuItem: FC<SearchMenuItemProps> = ({ setOpenBuyMenu, item }) => {
             <img
                 alt=""
                 src={`https://assets.coincap.io/assets/icons/${item.symbol.toLowerCase()}@2x.png`}
+                onError={setSrcPlaceholder}
                 width={35}
                 height={35}
             />

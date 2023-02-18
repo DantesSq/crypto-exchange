@@ -11,6 +11,7 @@ export interface transaction {
     quantity: number;
     total: number;
     type: transactionTypes;
+    transactionId: number;
 }
 
 interface coin {
@@ -53,7 +54,13 @@ const initialState: portfolioState = {
                     symbol: 'eth',
 
                     transactions: [
-                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                        {
+                            price: 100,
+                            quantity: 3,
+                            total: 3600,
+                            type: transactionTypes.BUY,
+                            transactionId: 123,
+                        },
                     ],
                 },
                 {
@@ -62,7 +69,13 @@ const initialState: portfolioState = {
                     symbol: 'btc',
 
                     transactions: [
-                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                        {
+                            price: 100,
+                            quantity: 3,
+                            total: 3600,
+                            type: transactionTypes.BUY,
+                            transactionId: 1231,
+                        },
                     ],
                 },
                 {
@@ -71,7 +84,13 @@ const initialState: portfolioState = {
                     symbol: 'bnb',
 
                     transactions: [
-                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                        {
+                            price: 100,
+                            quantity: 3,
+                            total: 3600,
+                            type: transactionTypes.BUY,
+                            transactionId: 12,
+                        },
                     ],
                 },
                 {
@@ -80,7 +99,13 @@ const initialState: portfolioState = {
                     symbol: 'matic',
 
                     transactions: [
-                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                        {
+                            price: 100,
+                            quantity: 3,
+                            total: 3600,
+                            type: transactionTypes.BUY,
+                            transactionId: 1231,
+                        },
                     ],
                 },
                 {
@@ -89,7 +114,13 @@ const initialState: portfolioState = {
                     symbol: 'sol',
 
                     transactions: [
-                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                        {
+                            price: 100,
+                            quantity: 3,
+                            total: 3600,
+                            type: transactionTypes.BUY,
+                            transactionId: 12333,
+                        },
                     ],
                 },
                 {
@@ -98,7 +129,13 @@ const initialState: portfolioState = {
                     symbol: 'dot',
 
                     transactions: [
-                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                        {
+                            price: 100,
+                            quantity: 3,
+                            total: 3600,
+                            type: transactionTypes.BUY,
+                            transactionId: 123334,
+                        },
                     ],
                 },
                 {
@@ -107,7 +144,13 @@ const initialState: portfolioState = {
                     symbol: 'LTC',
 
                     transactions: [
-                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                        {
+                            price: 100,
+                            quantity: 3,
+                            total: 3600,
+                            type: transactionTypes.BUY,
+                            transactionId: 12230,
+                        },
                     ],
                 },
                 {
@@ -116,7 +159,13 @@ const initialState: portfolioState = {
                     symbol: 'trx',
 
                     transactions: [
-                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                        {
+                            price: 100,
+                            quantity: 3,
+                            total: 3600,
+                            type: transactionTypes.BUY,
+                            transactionId: 1,
+                        },
                     ],
                 },
                 {
@@ -125,7 +174,13 @@ const initialState: portfolioState = {
                     symbol: 'avax',
 
                     transactions: [
-                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                        {
+                            price: 100,
+                            quantity: 3,
+                            total: 3600,
+                            type: transactionTypes.BUY,
+                            transactionId: 2,
+                        },
                     ],
                 },
                 {
@@ -134,7 +189,13 @@ const initialState: portfolioState = {
                     symbol: 'uni',
 
                     transactions: [
-                        { price: 100, quantity: 3, total: 3600, type: transactionTypes.BUY },
+                        {
+                            price: 100,
+                            quantity: 3,
+                            total: 3600,
+                            type: transactionTypes.BUY,
+                            transactionId: 3,
+                        },
                     ],
                 },
             ],
@@ -186,6 +247,7 @@ export const portfolioSlice = createSlice({
                 quantity: quantity,
                 total: price * quantity,
                 type: type,
+                transactionId: Math.random(),
             };
 
             for (let i in state.usersPortfolio) {
@@ -231,6 +293,40 @@ export const portfolioSlice = createSlice({
             state.usersPortfolio[userId - 1].investment = investment;
             state.usersPortfolio[userId - 1].totalReturn = totalReturn;
         },
+        removeCoin(state, action: PayloadAction<{ userId: number; symbol: string }>) {
+            const { userId, symbol } = action.payload;
+            for (let i in state.usersPortfolio) {
+                if (state.usersPortfolio[i].id === userId) {
+                    for (let j in state.usersPortfolio[i].coins) {
+                        if (state.usersPortfolio[i].coins[j].symbol === symbol) {
+                            state.usersPortfolio[i].coins.splice(Number(j), 1);
+                        }
+                    }
+                }
+            }
+        },
+        removeTransaction(
+            state,
+            action: PayloadAction<{ userId: number; symbol: string; transactionId: number }>,
+        ) {
+            const { userId, symbol, transactionId } = action.payload;
+            for (let i in state.usersPortfolio) {
+                if (state.usersPortfolio[i].id === userId) {
+                    for (let j in state.usersPortfolio[i].coins) {
+                        if (state.usersPortfolio[i].coins[j].symbol === symbol) {
+                            if (state.usersPortfolio[i].coins[j].transactions.length === 1) {
+                                state.usersPortfolio[i].coins.splice(Number(j), 1);
+                            }
+                            const coin = state.usersPortfolio[i].coins[j];
+                            state.usersPortfolio[i].coins[j].transactions =
+                                coin.transactions.filter(
+                                    (item) => item.transactionId !== transactionId,
+                                );
+                        }
+                    }
+                }
+            }
+        },
     },
 });
 
@@ -243,6 +339,8 @@ export const {
     addTransaction,
     changeHide,
     setTotals,
+    removeCoin,
+    removeTransaction,
 } = portfolioSlice.actions;
 
 export default portfolioSlice.reducer;

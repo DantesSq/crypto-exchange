@@ -1,24 +1,17 @@
 'use client';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { cryptoItem } from '@/models/cryptoItem';
+import { data } from '@/models/data';
 import { CryptoApi } from '@/services/CryptoService';
-import {
-    changeHide,
-    changeOpenBuyMenu,
-    changeOpenMenu,
-    transactionTypes,
-} from '@/store/portfolio/portfolioSlice';
+import { changeHide, changeOpenBuyMenu, changeOpenMenu } from '@/store/portfolio/portfolioSlice';
+import { currencyFormat } from '@/utils/CurrencyFormat';
 
 import React from 'react';
 import SearchComponent from './SearchComponent';
 
-const currencyFormat = (number: number, n: number) => {
-    return '$' + number.toFixed(n).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-};
-
 const Balance = () => {
     const dispatch = useAppDispatch();
-    const { data } = CryptoApi.useFetchCryptoQuery(20);
+
     const { openMenu, openBuyMenu, hide } = useAppSelector((state) => state.portfolioSlice);
     const userId = useAppSelector((state) => state.usersSlice.userInfo?.id);
 
@@ -41,11 +34,10 @@ const Balance = () => {
 
     return (
         <div className="p-[20px] h-[auto] bg-white rounded-xl w-[100%] ">
-            {openMenu && data && (
+            {openMenu && (
                 <SearchComponent
                     setOpenBuyMenu={setOpenBuyMenu}
                     setOpenMenu={setOpenMenu}
-                    data={data.data}
                     openMenu={openMenu}
                     openBuyMenu={openBuyMenu}
                 />
@@ -55,7 +47,7 @@ const Balance = () => {
                 <h1 className="text-[25px]">Portfolio</h1>
                 <button
                     onClick={addHoldings}
-                    className="bg-[#5367fe] text-white text-center py-[10px] px-[20px] h-[50px] rounded-2xl placeholder-white">
+                    className="bg-[#5367fe] text-white text-center py-[15px] px-[20px] rounded-2xl placeholder-white">
                     Add Holdings
                 </button>
             </div>
@@ -90,7 +82,7 @@ const Balance = () => {
                     </div>
                     <div className="flex justify-between items-center">
                         <h1 className="lg:text-[30px] text-[25px] ml-[10px] mr-[10px] lg:ml-0">
-                            {hide ? '***' : currencyFormat(balance, 2)}
+                            {hide ? '***' : currencyFormat(balance)}
                         </h1>
                         <div
                             onClick={() => {
@@ -187,10 +179,10 @@ const Balance = () => {
                                     />
                                 </g>
                             </svg>
-                            Total investment
+                            Total Investment
                         </div>
                         <div className="mt-[20px] text-[18px]">
-                            {hide ? '***' : currencyFormat(investment, 2)}
+                            {hide ? '***' : currencyFormat(investment)}
                         </div>
                     </div>
                     <div className="md:w-[28%] md:p-[10px] rounded bg-[#ff0900] bg-opacity-25 hover:bg-opacity-40">
@@ -250,10 +242,10 @@ const Balance = () => {
                                     />
                                 </g>
                             </svg>
-                            Total return
+                            Total Return
                         </div>
                         <div className="mt-[20px] text-[18px]">
-                            {hide ? '***' : currencyFormat(totalReturn, 2)}
+                            {hide ? '***' : currencyFormat(totalReturn)}
                         </div>
                     </div>
                     <div className="md:w-[28%] md:p-[10px] rounded bg-[#00ff79] bg-opacity-25 hover:bg-opacity-40">
@@ -280,7 +272,7 @@ const Balance = () => {
                             Profit
                         </div>
                         <div className="mt-[20px] text-[18px]">
-                            {hide ? '***' : currencyFormat(profit, 2)}
+                            {hide ? '***' : currencyFormat(profit)}
                         </div>
                     </div>
                 </div>

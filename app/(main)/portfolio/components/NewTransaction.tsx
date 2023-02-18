@@ -2,6 +2,8 @@ import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { addTransaction, changeType, transactionTypes } from '@/store/portfolio/portfolioSlice';
 import React, { FC } from 'react';
 import { useForm } from 'react-hook-form';
+import favicon from '@/public/favicon.ico';
+import { setSrcPlaceholder } from '@/utils/SetSrcPlaceholder';
 
 interface NewTransactionProps {
     setOpenMenu: (arg: boolean) => void;
@@ -24,7 +26,6 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
 
     const {
         register,
-        control,
         handleSubmit,
         formState: { errors },
     } = useForm<Inputs>({
@@ -123,6 +124,7 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
                 <img
                     alt=""
                     src={`https://assets.coincap.io/assets/icons/${currentItem?.symbol.toLowerCase()}@2x.png`}
+                    onError={setSrcPlaceholder}
                     width={30}
                     height={30}
                 />

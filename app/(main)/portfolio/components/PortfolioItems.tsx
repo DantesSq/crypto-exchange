@@ -11,12 +11,11 @@ import {
     changeItem,
     changeOpenBuyMenu,
     changeOpenMenu,
+    removeCoin,
     setTotals,
     transactionTypes,
 } from '@/store/portfolio/portfolioSlice';
-import axios from 'axios';
 import PortfolioItem from './PortfolioItem';
-import { cryptoItem } from '@/models/cryptoItem';
 import { CryptoApi } from '@/services/CryptoService';
 
 interface coin {
@@ -55,6 +54,21 @@ const PortfolioItems = () => {
             dispatch(changeOpenBuyMenu(true));
         }
     };
+
+    const removeItem = (symbol: string) => {
+        if (userId) {
+            dispatch(removeCoin({ userId: userId, symbol: symbol }));
+        }
+    };
+    const seeTransactions = (symbol: string) => {
+        const item = portfolio.coins.filter((item) => item.symbol === symbol)[0];
+        if (userId && item) {
+        }
+    };
+
+    React.useEffect(() => {
+        dispatch(setCurrentPage(1));
+    }, []);
 
     React.useEffect(() => {
         if (coins && userId) {
@@ -183,6 +197,8 @@ const PortfolioItems = () => {
                                             key={item.id}
                                             newTransaction={newTransaction}
                                             hide={hide}
+                                            removeItem={removeItem}
+                                            seeTransactions={seeTransactions}
                                             {...item}
                                         />
                                     );
