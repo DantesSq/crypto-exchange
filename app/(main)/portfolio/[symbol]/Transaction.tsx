@@ -19,7 +19,7 @@ const Transaction: FC<TransactionProps> = ({ deleteTransaction, transaction, cry
     const symbolType = type === transactionTypes.BUY ? '+' : '-';
 
     return (
-        <div className="flex  py-[13px] pl-[8px] text-[16px] border-b-[1px] border-solid border-grayL rounded hover:bg-grayL items-center">
+        <div className="flex dark:text-gray dark:hover:bg-primaryD  py-[13px] pl-[8px] text-[16px] border-b-[1px] border-solid border-grayL dark:border-text rounded hover:bg-grayL items-center">
             <div className="w-[50%]">
                 <div className="flex items-center space-x-[8px]">
                     {type === transactionTypes.BUY ? (

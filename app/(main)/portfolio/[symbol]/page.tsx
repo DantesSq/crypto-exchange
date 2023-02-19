@@ -110,7 +110,7 @@ const TransactionsPage = ({ params }: { params: { symbol: string } }) => {
     };
 
     return (
-        <div className="p-[10px] mb-[20px] bg-white rounded-xl w-[100%] text-text text-[18px]">
+        <div className="p-[10px] mb-[20px] bg-white dark:bg-secondD rounded-xl w-[100%] text-text dark:text-white text-[18px]">
             {openMenu && (
                 <SearchComponent
                     setOpenBuyMenu={setOpenBuyMenu}
@@ -135,12 +135,12 @@ const TransactionsPage = ({ params }: { params: { symbol: string } }) => {
                         onClick={() => {
                             router.push('/portfolio');
                         }}
-                        className="bg-grayL text-black text-center py-[12px] px-[30px] rounded-xl placeholder-white hover:cursor-pointer">
+                        className="bg-grayL text-black dark:bg-primaryD dark:hover:bg-black dark:text-white dark:border-text datk:text-text border-solid border-[1px]  text-center py-[12px] px-[30px] rounded placeholder-white hover:cursor-pointer">
                         <h1>Back</h1>
                     </button>
                     <button
                         onClick={newTransaction}
-                        className="bg-[#5367fe] text-white text-center py-[12px] px-[15px] rounded-xl placeholder-white ">
+                        className="bg-[#5367fe] dark:bg-primaryD dark:hover:bg-black dark:border-text datk:text-text border-solid border-[1px] text-white text-center py-[12px] px-[15px] rounded placeholder-white ">
                         Add Transaction
                     </button>
                 </div>
@@ -149,13 +149,15 @@ const TransactionsPage = ({ params }: { params: { symbol: string } }) => {
             <div className="flex space-x-[25px] py-[8px] text-gray text-[14px]">
                 <div>
                     <div>Quantity</div>
-                    <div className="text-black text-[18px]">
+                    <div className="text-black dark:text-gray text-[18px]">
                         {quantity} {cryptoItem?.symbol}
                     </div>
                 </div>
                 <div>
                     <div>Avg Buy Price</div>
-                    <div className="text-black text-[18px]">{currencyFormat(avgBuy)}</div>
+                    <div className="text-black dark:text-gray text-[18px]">
+                        {currencyFormat(avgBuy)}
+                    </div>
                 </div>
                 <div>
                     <div>Profit / Loss</div>
@@ -168,7 +170,7 @@ const TransactionsPage = ({ params }: { params: { symbol: string } }) => {
                 </div>
             </div>
 
-            <div className="flex  py-[13px] pl-[8px] border-y-2 border-grayL border-solid text-gray">
+            <div className="flex  py-[13px] pl-[8px] border-y-2 border-grayL dark:border-text border-solid text-gray">
                 <div className="w-[50%]">Type</div>
                 <div className="w-[20%]">Price</div>
                 <div className="w-[20%]">Amount</div>
@@ -214,7 +216,9 @@ const TransactionsPage = ({ params }: { params: { symbol: string } }) => {
                                 return (
                                     <div
                                         className={`text-[18px] hover:cursor-pointer ${
-                                            id + 1 === currentPage ? 'text-[#000000]' : 'text-gray'
+                                            id + 1 === currentPage
+                                                ? 'text-[#000000] dark:text-text'
+                                                : 'text-gray'
                                         }`}
                                         key={id}
                                         onClick={() => {

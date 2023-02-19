@@ -33,7 +33,7 @@ const Balance = () => {
     };
 
     return (
-        <div className="p-[20px] h-[auto] bg-white rounded-xl w-[100%] ">
+        <div className="p-[20px] h-[auto] bg-white dark:bg-secondD rounded-xl w-[100%] dark:text-white">
             {openMenu && (
                 <SearchComponent
                     setOpenBuyMenu={setOpenBuyMenu}
@@ -47,16 +47,16 @@ const Balance = () => {
                 <h1 className="text-[25px]">Portfolio</h1>
                 <button
                     onClick={addHoldings}
-                    className="bg-[#5367fe] text-white text-center py-[15px] px-[20px] rounded-2xl placeholder-white">
+                    className="bg-[#5367fe] dark:bg-primaryD dark:hover:bg-black dark:border-text datk:text-text border-solid border-[1px] text-white text-center py-[15px] px-[20px] rounded placeholder-white">
                     Add Holdings
                 </button>
             </div>
 
-            <div className="lg:mt-[30px] md:flex md:justify-between text-black xl:flex-nowrap md:flex-wrap">
+            <div className="lg:mt-[30px] md:flex md:justify-between text-black dark:text-white xl:flex-nowrap md:flex-wrap">
                 <div className="xl:w-[30%] flex xl:flex-col w-full lg:justify-around items-center">
-                    <div className="text-text lg:text-[15px] text-[20px] flex items-center">
+                    <div className="text-text dark:text-[#9295a6] lg:text-[15px] text-[20px] flex items-center">
                         <svg
-                            className="fill-text mr-[6px]"
+                            className="fill-[#9295a6] mr-[6px]"
                             height="20px"
                             width="20px"
                             version="1.1"
@@ -88,7 +88,7 @@ const Balance = () => {
                             onClick={() => {
                                 dispatch(changeHide());
                             }}
-                            className="relative flex items-center p-[8px] mr-[10px] rounded text-text lg:text-[13px] text-[18px] bg-[#008dff] bg-opacity-10 hover:bg-opacity-30 hover:cursor-pointer">
+                            className="relative flex items-center p-[8px] mr-[10px] rounded text-text lg:text-[13px] text-[18px] bg-[#008dff] dark:bg-primaryD bg-opacity-10 hover:bg-opacity-30 hover:cursor-pointer">
                             {hide ? (
                                 <>
                                     <h1 className="lg:pr-[20px] pr-[35px]">Show Price</h1>
@@ -119,9 +119,9 @@ const Balance = () => {
                         </div>
                     </div>
                 </div>
-                <div className="xl:ml-[15px] xl:w-[70%] w-[100%] md:flex flex-none text-[15px] mt-[10px] justify-around flex-wrap">
-                    <div className="md:w-[28%] md:p-[10px] rounded bg-[#0083ff] bg-opacity-25 hover:bg-opacity-40">
-                        <div className="flex items-center">
+                <div className="xl:ml-[15px] xl:w-[70%] w-[100%] md:flex flex-none dark:text-gray text-[15px] mt-[10px] justify-around flex-wrap">
+                    <div className="md:w-[28%] md:p-[10px] rounded bg-[#0083ff] dark:bg-primaryD bg-opacity-25 hover:bg-opacity-40">
+                        <div className="flex items-center ">
                             <svg
                                 className="mr-[6px]"
                                 width="20px"
@@ -131,7 +131,7 @@ const Balance = () => {
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M2 8.5H14.5"
-                                    stroke="#292D32"
+                                    stroke="#9295a6"
                                     strokeWidth="1.5"
                                     strokeMiterlimit="10"
                                     strokeLinecap="round"
@@ -140,7 +140,7 @@ const Balance = () => {
                                 <path
                                     opacity="0.4"
                                     d="M6 16.5H8"
-                                    stroke="#292D32"
+                                    stroke="#9295a6"
                                     strokeWidth="1.5"
                                     strokeMiterlimit="10"
                                     strokeLinecap="round"
@@ -149,7 +149,7 @@ const Balance = () => {
                                 <path
                                     opacity="0.4"
                                     d="M10.5 16.5H14.5"
-                                    stroke="#292D32"
+                                    stroke="#9295a6"
                                     strokeWidth="1.5"
                                     strokeMiterlimit="10"
                                     strokeLinecap="round"
@@ -157,7 +157,7 @@ const Balance = () => {
                                 />
                                 <path
                                     d="M22 14.03V16.11C22 19.62 21.11 20.5 17.56 20.5H6.44C2.89 20.5 2 19.62 2 16.11V7.89C2 4.38 2.89 3.5 6.44 3.5H14.5"
-                                    stroke="#292D32"
+                                    stroke="#9295a6"
                                     strokeWidth="1.5"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
@@ -165,14 +165,14 @@ const Balance = () => {
                                 <g opacity="0.4">
                                     <path
                                         d="M20 9.5V3.5L22 5.5"
-                                        stroke="#292D32"
+                                        stroke="#9295a6"
                                         strokeWidth="1.5"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                     />
                                     <path
                                         d="M20 3.5L18 5.5"
-                                        stroke="#292D32"
+                                        stroke="#9295a6"
                                         strokeWidth="1.5"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -185,7 +185,7 @@ const Balance = () => {
                             {hide ? '***' : currencyFormat(investment)}
                         </div>
                     </div>
-                    <div className="md:w-[28%] md:p-[10px] rounded bg-[#ff0900] bg-opacity-25 hover:bg-opacity-40">
+                    <div className="md:w-[28%] md:p-[10px] rounded bg-[#ff0900] dark:bg-primaryD bg-opacity-25 hover:bg-opacity-40">
                         <div className="flex items-center">
                             <svg
                                 className="mr-[6px]"
@@ -196,7 +196,7 @@ const Balance = () => {
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M2 8.5H14.5"
-                                    stroke="#292D32"
+                                    stroke="#9295a6"
                                     strokeWidth="1.5"
                                     strokeMiterlimit="10"
                                     strokeLinecap="round"
@@ -204,7 +204,7 @@ const Balance = () => {
                                 />
                                 <path
                                     d="M6 16.5H8"
-                                    stroke="#292D32"
+                                    stroke="#9295a6"
                                     strokeWidth="1.5"
                                     strokeMiterlimit="10"
                                     strokeLinecap="round"
@@ -212,7 +212,7 @@ const Balance = () => {
                                 />
                                 <path
                                     d="M10.5 16.5H14.5"
-                                    stroke="#292D32"
+                                    stroke="#9295a6"
                                     strokeWidth="1.5"
                                     strokeMiterlimit="10"
                                     strokeLinecap="round"
@@ -220,7 +220,7 @@ const Balance = () => {
                                 />
                                 <path
                                     d="M22 14.03V16.11C22 19.62 21.11 20.5 17.56 20.5H6.44C2.89 20.5 2 19.62 2 16.11V7.89C2 4.38 2.89 3.5 6.44 3.5H14.5"
-                                    stroke="#292D32"
+                                    stroke="#9295a6"
                                     strokeWidth="1.5"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
@@ -228,14 +228,14 @@ const Balance = () => {
                                 <g opacity="0.4">
                                     <path
                                         d="M20 3.5V9.5L22 7.5"
-                                        stroke="#292D32"
+                                        stroke="#9295a6"
                                         strokeWidth="1.5"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                     />
                                     <path
                                         d="M20 9.5L18 7.5"
-                                        stroke="#292D32"
+                                        stroke="#9295a6"
                                         strokeWidth="1.5"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -248,10 +248,10 @@ const Balance = () => {
                             {hide ? '***' : currencyFormat(totalReturn)}
                         </div>
                     </div>
-                    <div className="md:w-[28%] md:p-[10px] rounded bg-[#00ff79] bg-opacity-25 hover:bg-opacity-40">
+                    <div className="md:w-[28%] md:p-[10px] rounded bg-[#00ff79] dark:bg-primaryD bg-opacity-25 hover:bg-opacity-40">
                         <div className="flex items-center">
                             <svg
-                                className="fill-text h-[20px] w-[20px] mr-[6px]"
+                                className="fill-[#9295a6] h-[20px] w-[20px] mr-[6px]"
                                 version="1.1"
                                 id="Layer_1"
                                 xmlns="http://www.w3.org/2000/svg"

@@ -82,14 +82,14 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
                     xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M12.9998 8L6 14L12.9998 21"
-                        stroke="#000000"
+                        stroke="#0F1729"
                         strokeWidth="4"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                     />
                     <path
                         d="M6 14H28.9938C35.8768 14 41.7221 19.6204 41.9904 26.5C42.2739 33.7696 36.2671 40 28.9938 40H11.9984"
-                        stroke="#000000"
+                        stroke="#0F1729"
                         strokeWidth="4"
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -147,7 +147,7 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
                                 required: 'Enter Quantity',
                                 onChange: onChangeQuantity,
                             })}
-                            className="text-[18px] border border-solid border-gray rounded pl-[10px] py-[4px] w-[95%]"
+                            className="text-[18px] border border-solid border-gray dark:bg-secondD dark:border-none rounded pl-[10px] py-[4px] w-[95%]"
                         />
                         {errors.quantity && (
                             <h1 className="text-xs ml-[5px] text-[#FA8072]">
@@ -175,7 +175,7 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
                                     },
                                     onChange: onChangePrice,
                                 })}
-                                className="text-[18px] border border-solid border-gray rounded pl-[15px] py-[4px] w-[95%]"
+                                className="text-[18px] border border-solid border-gray dark:bg-secondD dark:border-none rounded pl-[15px] py-[4px] w-[95%]"
                             />
                         </div>
 
@@ -187,14 +187,14 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
                     </div>
                 </div>
 
-                <div className="w-100% bg-[#e6e9f2] mt-[30px] py-[8px] px-[10px] rounded">
+                <div className="w-100% bg-[#e6e9f2] dark:bg-secondD mt-[30px] py-[8px] px-[10px] rounded">
                     <h1>{type === 'buy' ? 'Total received' : 'Total spent'}</h1>
                     <h1 className=" text-xl">${total.toFixed(2)}</h1>
                 </div>
                 <input
                     type="submit"
                     value="Add Transaction"
-                    className="bg-[#5367fe] text-white text-center w-[100%] py-[15px] mt-[40px] rounded placeholder-white"
+                    className="bg-[#5367fe] text-white text-center dark:bg-secondD dark:hover:bg-black w-[100%] py-[15px] mt-[40px] rounded placeholder-white"
                 />
             </form>
         </div>

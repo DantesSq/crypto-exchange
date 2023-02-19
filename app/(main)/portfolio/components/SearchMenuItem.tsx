@@ -21,7 +21,7 @@ const SearchMenuItem: FC<SearchMenuItemProps> = ({ setOpenBuyMenu, item }) => {
     return (
         <div
             onClick={onClickItem}
-            className=" relative flex items-center w-[100%] py-[15px] rounded-lg hover:bg-grayL hover:cursor-pointer text-[18px]">
+            className=" relative flex items-center w-[100%] py-[15px] rounded-lg hover:bg-grayL dark:hover:bg-secondD hover:cursor-pointer text-[18px]">
             <img
                 alt=""
                 src={`https://assets.coincap.io/assets/icons/${item.symbol.toLowerCase()}@2x.png`}

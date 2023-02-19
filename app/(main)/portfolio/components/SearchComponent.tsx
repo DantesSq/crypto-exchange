@@ -67,7 +67,7 @@ const SearchComponent: FC<SearchComponentProps> = ({
                     animate="visible"
                     exit="exit"
                     onClick={(e) => e.stopPropagation()}
-                    className="py-[30px] px-[30px] bg-white overflow-y-scroll no-scrollbar rounded-lg relative shadow-lg">
+                    className="py-[30px] px-[30px] bg-white dark:bg-primaryD overflow-y-scroll no-scrollbar rounded-lg relative shadow-lg">
                     <svg
                         className="absolute top-[12px] right-[12px] hover:cursor-pointer hover:w-[40px] hover:h-[40px] hover:top-[7px] hover:right-[7px] transition-all"
                         onClick={() => {

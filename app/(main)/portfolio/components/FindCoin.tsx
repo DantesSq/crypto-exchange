@@ -30,7 +30,7 @@ const FindCoin: FC<FindCoinProps> = ({ setOpenBuyMenu }) => {
             <input
                 value={searchQuery}
                 onChange={handleSearch}
-                className="rounded border-[2px] border-gray border-solid w-[100%]
+                className="rounded border-[2px] dark:bg-secondD dark:border-none border-gray border-solid w-[100%]
 py-[5px] pl-[10px] my-[5px]"
             />
 

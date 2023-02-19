@@ -61,7 +61,7 @@ const PortfolioItem: FC<PortfolioItemProps> = ({
     }, []);
 
     return (
-        <div className="flex mt-[30px] relative">
+        <div className="flex mt-[30px] relative dark:text-white">
             <div className="flex w-[20%] items-center">
                 <img
                     alt=""
@@ -71,7 +71,7 @@ const PortfolioItem: FC<PortfolioItemProps> = ({
                     height={25}
                 />
                 <h1 className="px-[8px]">{id}</h1>
-                <h1 className="text-[10px] text-[#6171fe] px-[5px] py-[2px] bg-[#e9eaef] rounded">
+                <h1 className="text-[12px] text-[#6171fe] px-[5px] py-[2px] bg-[#e9eaef] dark:bg-primaryD rounded">
                     {symbol.toUpperCase()}
                 </h1>
             </div>
@@ -81,15 +81,15 @@ const PortfolioItem: FC<PortfolioItemProps> = ({
                     {hide ? '***' : currencyFormat(Number(price))}
                 </div>
             </div>
-            <div className="w-[20%]">{hide ? '***' : quantity}</div>
-            <div className="w-[20%]">{hide ? '***' : currentTotal}</div>
+            <div className="w-[20%] text-gray">{hide ? '***' : quantity}</div>
+            <div className="w-[20%] text-gray">{hide ? '***' : currentTotal}</div>
             <div className={`w-[10%] ${profitColor}`}>
                 {symbolProfit}
                 {percentChanges} %
             </div>
             <div className="w-[10%] flex items-center relative">
                 <svg
-                    className="hover:cursor-pointer p-[3px] rounded-[50%] hover:border-[2px] hover:border-grayL hover:shadow-lg"
+                    className="hover:cursor-pointer p-[3px] rounded-[50%] hover:border-[2px] dark:hover:border-text hover:border-grayL hover:shadow-lg"
                     onClick={() => {
                         newTransaction(symbol);
                     }}
@@ -106,7 +106,7 @@ const PortfolioItem: FC<PortfolioItemProps> = ({
                     onClick={() => {
                         setOpenMenu((prev) => !prev);
                     }}
-                    className="hover:cursor-pointer p-[3px] rounded-[50%] hover:border-[2px] hover:border-grayL hover:shadow-lg"
+                    className="hover:cursor-pointer p-[3px] rounded-[50%] hover:border-[2px] dark:hover:border-text hover:border-grayL hover:shadow-lg"
                     width="26px"
                     height="26px"
                     viewBox="0 0 24 24"
@@ -130,11 +130,11 @@ const PortfolioItem: FC<PortfolioItemProps> = ({
                         onClick={() => {
                             clickMenu.current = true;
                         }}
-                        className="bg-white shadow-xl left-[20px] p-[5px] rounded absolute  top-[100%] z-10 text-[#0000000] text-[13px]">
+                        className="bg-white dark:bg-secondD shadow-xl left-[20px] p-[5px] rounded absolute  top-[100%] z-10 text-[#0000000] text-[13px]">
                         <Link href={`/portfolio/${symbol}`}>
                             <div
                                 onClick={onCLickTransactions}
-                                className="flex items-center hover:bg-grayL hover:cursor-pointer p-[10px] rounded">
+                                className="flex items-center hover:bg-grayL dark:hover:bg-primaryL hover:cursor-pointer p-[10px] rounded">
                                 <svg
                                     className=" mx-[3px]"
                                     width="15px"
@@ -157,7 +157,7 @@ const PortfolioItem: FC<PortfolioItemProps> = ({
                             onClick={() => {
                                 removeItem(symbol);
                             }}
-                            className="flex items-center hover:bg-grayL hover:cursor-pointer p-[10px] rounded">
+                            className="flex items-center hover:bg-grayL dark:hover:bg-primaryL hover:cursor-pointer p-[10px] rounded">
                             <svg
                                 className=" mx-[3px]"
                                 width="20px"

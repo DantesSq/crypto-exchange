@@ -49,8 +49,8 @@ const SignInPage = () => {
     });
 
     return (
-        <div className="bg-white rounded px-[40px]">
-            <h1 className="text-3xl text-primaryD py-[50px]">Sign In</h1>
+        <div className=" bg-white dark:bg-secondD rounded px-[40px]">
+            <h1 className="text-3xl text-primaryD dark:text-white py-[50px]">Sign In</h1>
             <div className="flex flex-col items-center ">
                 <form className="flex flex-col" onSubmit={onSubmit}>
                     <div className="my-[15px]">
@@ -62,7 +62,7 @@ const SignInPage = () => {
                                     message: 'Email must contain an “@” symbol before the domain',
                                 },
                             })}
-                            className="bg-[#e2f2ff] w-[350px] h-[60px] py-[30px] px-[20px] rounded"
+                            className="bg-[#e2f2ff] dark:bg-primaryD w-[350px] h-[60px] py-[30px] px-[20px] rounded"
                             placeholder="Enter Email"
                         />
                         {errors.email && (
@@ -82,7 +82,7 @@ const SignInPage = () => {
                                 },
                             })}
                             type={showPass ? 'text' : 'password'}
-                            className="bg-[#e2f2ff] w-[350px] h-[60px] py-[30px] px-[20px] rounded"
+                            className="bg-[#e2f2ff] dark:bg-primaryD w-[350px] h-[60px] py-[30px] px-[20px] rounded"
                             placeholder="Enter Password"
                         />
 
@@ -136,7 +136,7 @@ const SignInPage = () => {
                     <input
                         type="submit"
                         value="Sign In"
-                        className="bg-[#5367fe] text-white text-center w-[350px] h-[60px] my-[40px] rounded placeholder-white"
+                        className="bg-[#5367fe] dark:bg-primaryD dark:hover:bg-black text-white text-center w-[350px] h-[60px] my-[40px] rounded placeholder-white"
                     />
                 </form>
 
