@@ -40,9 +40,8 @@ const PortfolioItems = () => {
 
     const [coins, setCoins] = React.useState<coin[]>();
     const [ids, setIds] = React.useState('');
-    // const [data, setData] = React.useState<cryptoItem[]>();
 
-    const { data } = CryptoApi.useFetchCryptoByIdsQuery(ids);
+    const { data, isLoading } = CryptoApi.useFetchCryptoByIdsQuery(ids);
 
     const newTransaction = (symbol: string) => {
         const item = data?.data.filter(
@@ -100,16 +99,6 @@ const PortfolioItems = () => {
                 .join(',')
                 .toLowerCase();
             setIds(ids);
-
-            // const fetchData = async () => {
-            //     const { data } = await axios(
-            //         `https://api.coincap.io/v2/assets?ids=${ids.join(',').toLowerCase()}`,
-            //     );
-
-            //     setData(data.data);
-            // };
-            // fetchData();
-
             const amountPages = Math.ceil(portfolio.coins.length / itemsPerPage);
             dispatch(setPages(amountPages));
         }

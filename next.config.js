@@ -4,14 +4,15 @@ const nextConfig = {
         appDir: true,
     },
     images: {
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'via.placeholder.com',
-                port: '',
-                pathname: '/**',
-            },
-        ],
+        // remotePatterns: [
+        //     {
+        //         protocol: 'https',
+        //         hostname: 'via.placeholder.com',
+        //         port: '',
+        //         pathname: '/**',
+        //     },
+        // ],
+        domains: ['assets.coincap.io', 'via.placeholder.com'],
     },
 };
 

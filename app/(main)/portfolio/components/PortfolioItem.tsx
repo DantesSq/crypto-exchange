@@ -1,6 +1,7 @@
 'use client';
 import { currencyFormat } from '@/utils/CurrencyFormat';
-import { setSrcPlaceholder } from '@/utils/SetSrcPlaceholder';
+
+import Image from 'next/image';
 import Link from 'next/link';
 import React, { FC } from 'react';
 
@@ -30,6 +31,7 @@ const PortfolioItem: FC<PortfolioItemProps> = ({
     seeTransactions,
 }) => {
     const [openMenu, setOpenMenu] = React.useState(false);
+    const [imgError, setImgError] = React.useState(false);
 
     const currentTotal = currentPrice * quantity;
     const percentChanges = (currentPrice / (price / 100) - 100).toFixed(0);
@@ -63,10 +65,16 @@ const PortfolioItem: FC<PortfolioItemProps> = ({
     return (
         <div className="flex mt-[30px] relative dark:text-white">
             <div className="flex w-[20%] items-center">
-                <img
+                <Image
                     alt=""
-                    src={`https://assets.coincap.io/assets/icons/${symbol.toLowerCase()}@2x.png`}
-                    onError={setSrcPlaceholder}
+                    src={
+                        imgError
+                            ? 'https://via.placeholder.com/35'
+                            : `https://assets.coincap.io/assets/icons/${symbol.toLowerCase()}@2x.png`
+                    }
+                    onError={() => {
+                        setImgError(true);
+                    }}
                     width={25}
                     height={25}
                 />

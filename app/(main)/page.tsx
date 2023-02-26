@@ -1,11 +1,14 @@
 'use client';
 import { Inter } from '@next/font/google';
 
-import React, { FC } from 'react';
+import React from 'react';
 // import axios from 'axios';
 import CryptoElement from '../components/CryptoElement';
-import { CryptoApi } from '@/services/CryptoService';
+import { useFetchCryptoBySearchQuery } from '@/services/CryptoService';
 import { cryptoItem } from '@/models/cryptoItem';
+import useDebounce from '@/hooks/debounce';
+import LoadingBtn from '../components/LoadingBtn';
+import CryptoElementSkeleton from '../components/CryptoElementSkeleton';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -35,22 +38,97 @@ const inter = Inter({ subsets: ['latin'] });
 
 const Home = () => {
     // const data: dataItem[] = await getData();
-    const { data } = CryptoApi.useFetchCryptoQuery(20, { pollingInterval: 15000 });
-    console.log(data?.data[0].priceUsd);
+    const [limit, setLimit] = React.useState(20);
+    const [searchQuery, setSearchQuery] = React.useState<string>('');
+    const [loading, setLoading] = React.useState(false);
+    const debouncedSearchQuery = useDebounce(searchQuery, 500);
+    const { data, isLoading } = useFetchCryptoBySearchQuery(
+        { search: debouncedSearchQuery, limit: limit },
+        { pollingInterval: 15000 },
+    );
+
+    React.useEffect(() => {
+        document.addEventListener('scroll', handleScroll);
+
+        return () => {
+            document.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    React.useEffect(() => {
+        if (limit === data?.data.length) {
+            setLoading(false);
+        }
+    }, [data, limit]);
+
+    const handleScroll = (e: Event) => {
+        const target = e.target as Document;
+        if (
+            target.documentElement.scrollHeight -
+                (target.documentElement.scrollTop + window.innerHeight) <
+            5
+        ) {
+            setLimit((prev) => prev + 20);
+            setLoading(true);
+        }
+    };
+
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(e.target.value);
+    };
 
     return (
-        <div className="container my-[50px] px-[40px] dark:bg-primaryD">
-            <div className="px-[20px] my-[20px] bg-white dark:bg-secondD rounded-xl w-[100%] text-text">
-                <div className="sort__items flex justify-between items-center h-[60px] border-b-2 dark:border-text border-grayL border-solid text-gray">
-                    <div className="w-[5%]">#</div>
-                    <div className="w-[20%]">Crypto Name Name</div>
-                    <div className="w-[10%]">Crypto Price</div>
-                    <div className="w-[5%]">24h%</div>
-                    <div className="w-[15%]">MarketCup Volume</div>
-                    <div className="w-[10%]">Volume 24h</div>
+        <div className="container my-[40px] px-[60px] dark:bg-primaryD">
+            <div className="p-[25px] pb-[10px] my-[20px] bg-white dark:bg-secondD rounded-xl w-[100%] text-text dark:text-gray">
+                <div className="flex items-center justify-between">
+                    <h1 className="text-[20px] my-4">Market Coins</h1>
+                    <div className="relative">
+                        <svg
+                            className="absolute top-[50%] translate-y-[-50%] left-[10px]"
+                            width="20px"
+                            height="20px"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                opacity="0.1"
+                                d="M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                                fill="#babcc3"
+                            />
+                            <path
+                                d="M15 15L21 21"
+                                stroke="#babcc3"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                            <path
+                                d="M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                                stroke="#babcc3"
+                                strokeWidth="2"
+                            />
+                        </svg>
+                        <input
+                            className="border-solid border-[1px] border-secondL rounded w-[320px] h-[40px] pl-[40px] dark:bg-secondD"
+                            type="text"
+                            value={searchQuery}
+                            onChange={handleSearch}
+                            placeholder="Search Coin Name"
+                        />
+                    </div>
                 </div>
+                <div className="flex items-center h-[60px] border-b-2 dark:border-text border-grayL border-solid text-gray">
+                    <div className="w-[5%]">#</div>
+                    <div className="w-[20%]">Crypto Name</div>
+                    <div className="w-[10%]">Crypto Price</div>
+                    <div className="w-[5%] mx-[30px]">24h%</div>
+                    <div className="w-[15%] mx-[30px]">MarketCup Volume</div>
+                    <div className="w-[10%] mx-[30px]">Volume 24h</div>
+                </div>
+
                 <>
                     {data &&
+                        data.data &&
                         data.data.map((item: cryptoItem) => (
                             <CryptoElement
                                 key={item.id}
@@ -66,6 +144,11 @@ const Home = () => {
                         ))}
                 </>
             </div>
+            {loading && (
+                <div className="w-full text-center">
+                    <LoadingBtn />
+                </div>
+            )}
         </div>
     );
 };

@@ -12,13 +12,9 @@ interface FindCoinProps {
 }
 
 const FindCoin: FC<FindCoinProps> = ({ setOpenBuyMenu }) => {
-    // const [value, setValue] = React.useState('');
     const [searchQuery, setSearchQuery] = React.useState<string>('');
     const debouncedSearchQuery = useDebounce(searchQuery, 500);
-    const { data } = useFetchCryptoBySearchQuery(debouncedSearchQuery);
-    // if (!value) {
-    //     setData(data?.data);
-    // }
+    const { data } = useFetchCryptoBySearchQuery({ search: debouncedSearchQuery, limit: 20 });
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);

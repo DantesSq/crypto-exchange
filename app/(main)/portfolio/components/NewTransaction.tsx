@@ -2,8 +2,8 @@ import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { addTransaction, changeType, transactionTypes } from '@/store/portfolio/portfolioSlice';
 import React, { FC } from 'react';
 import { useForm } from 'react-hook-form';
-import favicon from '@/public/favicon.ico';
-import { setSrcPlaceholder } from '@/utils/SetSrcPlaceholder';
+
+import Image from 'next/image';
 
 interface NewTransactionProps {
     setOpenMenu: (arg: boolean) => void;
@@ -23,6 +23,7 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
     const [price, setPrice] = React.useState(0);
     const [quantity, setQuantity] = React.useState(0);
     const [total, setTotal] = React.useState(0);
+    const [imgError, setImgError] = React.useState(false);
 
     const {
         register,
@@ -121,10 +122,16 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
                 </button>
             </div>
             <div className="flex items-center">
-                <img
+                <Image
                     alt=""
-                    src={`https://assets.coincap.io/assets/icons/${currentItem?.symbol.toLowerCase()}@2x.png`}
-                    onError={setSrcPlaceholder}
+                    src={
+                        imgError
+                            ? 'https://via.placeholder.com/35'
+                            : `https://assets.coincap.io/assets/icons/${currentItem?.symbol.toLowerCase()}@2x.png`
+                    }
+                    onError={() => {
+                        setImgError(true);
+                    }}
                     width={30}
                     height={30}
                 />
@@ -187,7 +194,7 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
                     </div>
                 </div>
 
-                <div className="w-100% bg-[#e6e9f2] dark:bg-secondD mt-[30px] py-[8px] px-[10px] rounded">
+                <div className="w-100% bg-secondL dark:bg-secondD mt-[30px] py-[8px] px-[10px] rounded">
                     <h1>{type === 'buy' ? 'Total received' : 'Total spent'}</h1>
                     <h1 className=" text-xl">${total.toFixed(2)}</h1>
                 </div>

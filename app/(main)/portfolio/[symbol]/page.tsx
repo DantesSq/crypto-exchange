@@ -15,7 +15,7 @@ import {
     transactionTypes,
 } from '@/store/portfolio/portfolioSlice';
 import { currencyFormat } from '@/utils/CurrencyFormat';
-import { setSrcPlaceholder } from '@/utils/SetSrcPlaceholder';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import SearchComponent from '../components/SearchComponent';
@@ -62,7 +62,7 @@ const TransactionsPage = ({ params }: { params: { symbol: string } }) => {
         );
     }
 
-    const { data } = useFetchCryptoBySearchQuery(symbol);
+    const { data } = useFetchCryptoBySearchQuery({ search: symbol, limit: 20 });
     const cryptoItem = data?.data[0];
 
     const quantity = transactions.reduce(
@@ -80,6 +80,8 @@ const TransactionsPage = ({ params }: { params: { symbol: string } }) => {
 
     const textColor = difference > 0 ? 'text-green' : 'text-red';
     const symbolType = difference > 0 ? '+' : '-';
+
+    const [imgError, setImgError] = React.useState(false);
 
     React.useEffect(() => {
         if (transactions.length) {
@@ -121,10 +123,16 @@ const TransactionsPage = ({ params }: { params: { symbol: string } }) => {
             )}
             <div className="flex justify-between">
                 <div className="flex text-[20px] space-x-[8px] items-center">
-                    <img
+                    <Image
                         alt=""
-                        src={`https://assets.coincap.io/assets/icons/${symbol.toLowerCase()}@2x.png`}
-                        onError={setSrcPlaceholder}
+                        src={
+                            imgError
+                                ? 'https://via.placeholder.com/35'
+                                : `https://assets.coincap.io/assets/icons/${symbol.toLowerCase()}@2x.png`
+                        }
+                        onError={() => {
+                            setImgError(true);
+                        }}
                         width={35}
                         height={35}
                     />

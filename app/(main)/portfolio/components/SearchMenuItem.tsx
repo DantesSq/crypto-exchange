@@ -1,7 +1,7 @@
 import { useAppDispatch } from '@/hooks/redux';
 import { cryptoItem } from '@/models/cryptoItem';
 import { changeItem } from '@/store/portfolio/portfolioSlice';
-import { setSrcPlaceholder } from '@/utils/SetSrcPlaceholder';
+import Image from 'next/image';
 
 import React, { FC } from 'react';
 
@@ -13,6 +13,8 @@ interface SearchMenuItemProps {
 const SearchMenuItem: FC<SearchMenuItemProps> = ({ setOpenBuyMenu, item }) => {
     const dispatch = useAppDispatch();
 
+    const [imgError, setImgError] = React.useState(false);
+
     const onClickItem = () => {
         dispatch(changeItem(item));
         setOpenBuyMenu(true);
@@ -22,10 +24,16 @@ const SearchMenuItem: FC<SearchMenuItemProps> = ({ setOpenBuyMenu, item }) => {
         <div
             onClick={onClickItem}
             className=" relative flex items-center w-[100%] py-[15px] rounded-lg hover:bg-grayL dark:hover:bg-secondD hover:cursor-pointer text-[18px]">
-            <img
+            <Image
                 alt=""
-                src={`https://assets.coincap.io/assets/icons/${item.symbol.toLowerCase()}@2x.png`}
-                onError={setSrcPlaceholder}
+                src={
+                    imgError
+                        ? 'https://via.placeholder.com/35'
+                        : `https://assets.coincap.io/assets/icons/${item.symbol.toLowerCase()}@2x.png`
+                }
+                onError={() => {
+                    setImgError(true);
+                }}
                 width={35}
                 height={35}
             />

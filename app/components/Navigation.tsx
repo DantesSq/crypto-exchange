@@ -5,8 +5,8 @@ import { signOutUser } from '@/store/users/usersSlice';
 import Link from 'next/link';
 import React from 'react';
 import NavigationItem from './NavigationItem';
-import { motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
+import { useTheme } from 'next-themes';
 
 const Navigation = () => {
     const dispatch = useAppDispatch();
@@ -22,6 +22,9 @@ const Navigation = () => {
         { name: 'Portfolio', href: '/portfolio' },
     ];
 
+    const { theme, systemTheme, setTheme } = useTheme();
+    const currentTheme = theme === 'system' ? systemTheme : theme;
+
     return (
         <nav className="h-[100%] container mx-auto px-[120px] flex items-center justify-between text-black dark:text-text">
             <ul className="h-[100%] flex justify-start items-center w-[33.33%]">
@@ -34,12 +37,12 @@ const Navigation = () => {
                         height="40px"
                         viewBox="0 0 1920 1920"
                         xmlns="http://www.w3.org/2000/svg">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                        <g id="SVGRepo_bgCarrier" strokeWidth="0" />
 
                         <g
                             id="SVGRepo_tracerCarrier"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                         />
 
                         <g id="SVGRepo_iconCarrier">
@@ -60,28 +63,72 @@ const Navigation = () => {
                 ))}
             </ul>
 
-            {authorized ? (
-                <ul className="h-[100%] flex justify-end items-center w-[33.33%]">
-                    <button
-                        onClick={signout}
-                        className="bg-[#d9dbe1] dark:bg-primaryD dark:hover:bg-secondD px-[28px] py-[13px] text-primaryL rounded-xl mx-3">
-                        Sign Out
-                    </button>
-                </ul>
-            ) : (
-                <ul className="h-[100%] flex justify-end items-center w-[33.33%]">
-                    <Link
-                        className="bg-[#d9dbe1] dark:bg-primaryD dark:hover:bg-secondD px-[28px] py-[13px] text-primaryL rounded-xl mx-3"
-                        href="/signin">
-                        Sign In
-                    </Link>
-                    <Link
-                        className="bg-blue px-[28px] py-[13px] text-[#d9dbe1] rounded-xl mx-3"
-                        href="/signup">
-                        Sign Up
-                    </Link>
-                </ul>
-            )}
+            <ul className="h-[100%] flex justify-end items-center w-[33.33%]">
+                <div className="">
+                    {currentTheme === 'dark' ? (
+                        <svg
+                            className="hover:cursor-pointer "
+                            onClick={() => {
+                                setTheme('light');
+                            }}
+                            width="35x"
+                            height="35px"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M3 12H5M5.00006 19L7.00006 17M12 19V21M17 17L19 19M5 5L7 7M19 12H21M16.9999 7L18.9999 5M12 3V5M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
+                                stroke="#ffffff"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                        </svg>
+                    ) : (
+                        <svg
+                            className="hover:cursor-pointer fill-secondD rotate-[30deg]"
+                            onClick={() => {
+                                setTheme('dark');
+                            }}
+                            width="30px "
+                            height="30px "
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M20.8667 15.3164C20.9187 15.1983 20.8006 15.0785 20.6792 15.1223V15.1223C17.3165 16.3368 13.4497 15.6201 10.9124 13.0837C8.38689 10.5592 7.66861 6.7169 8.86147 3.36559V3.36559C8.91069 3.22729 8.77418 3.09296 8.64021 3.15299C8.63117 3.15704 8.62214 3.16111 8.61311 3.16518C6.75765 4.00313 5.10654 5.4166 4.13683 7.19736C3.1002 9.10101 2.75831 11.3058 3.16975 13.4339C3.58119 15.5619 4.72034 17.4806 6.39193 18.861C8.06352 20.2414 10.1634 20.9977 12.3317 21C14.1962 21.0001 16.0181 20.4424 17.5629 19.3987C18.9891 18.4352 20.1189 16.9756 20.8311 15.3962C20.8431 15.3697 20.8549 15.343 20.8667 15.3164Z"
+                                stroke="none"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                        </svg>
+                    )}
+                </div>
+
+                {authorized ? (
+                    <li className="">
+                        <button
+                            onClick={signout}
+                            className="bg-[#d9dbe1] dark:bg-primaryD dark:hover:bg-secondD px-[28px] py-[13px] text-primaryL rounded-xl mx-3">
+                            Sign Out
+                        </button>
+                    </li>
+                ) : (
+                    <li className="">
+                        <Link
+                            className="bg-[#d9dbe1] dark:bg-black dark:hover:bg-secondD px-[28px] py-[13px] text-primaryL rounded-xl mx-3"
+                            href="/signin">
+                            Sign In
+                        </Link>
+                        <Link
+                            className="bg-blue px-[28px] py-[13px] text-[#d9dbe1] rounded-xl mx-3"
+                            href="/signup">
+                            Sign Up
+                        </Link>
+                    </li>
+                )}
+            </ul>
         </nav>
     );
 };

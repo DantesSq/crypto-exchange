@@ -2,7 +2,8 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { changeFavourite } from '@/store/favourite/favouriteSlice';
 import { currencyFormat } from '@/utils/CurrencyFormat';
-import { setSrcPlaceholder } from '@/utils/SetSrcPlaceholder';
+
+import Image from 'next/image';
 import React, { FC } from 'react';
 
 interface CryptoElementProps {
@@ -27,11 +28,16 @@ const CryptoElement: FC<CryptoElementProps> = ({
     volumeUsd24Hr,
 }) => {
     const dispatch = useAppDispatch();
-
     const { favourite } = useAppSelector((state) => state.favouriteSlice);
 
-    const profitColor = changePercent24Hr[0] === '-' ? 'text-red' : 'text-green';
-    const symbolProfit = changePercent24Hr[0] === '-' ? '' : '+';
+    const [imgError, setImgError] = React.useState(false);
+
+    const profitColor = changePercent24Hr
+        ? changePercent24Hr[0] === '-'
+            ? 'text-red'
+            : 'text-green'
+        : 0;
+    const symbolProfit = changePercent24Hr ? (changePercent24Hr[0] === '-' ? '' : '+') : '';
     const isFavourite = favourite.includes(id) ? '#f6b87e' : '#babcc3';
 
     const addToFavourite = () => {
@@ -39,7 +45,7 @@ const CryptoElement: FC<CryptoElementProps> = ({
     };
 
     return (
-        <div className="flex justify-between items-center h-[40px] my-[15px] text-text dark:text-gray">
+        <div className="flex items-center h-[40px] my-[15px] text-text dark:text-gray">
             <div className="w-[5%] flex items-center">
                 <svg
                     className="hover:cursor-pointer"
@@ -63,10 +69,16 @@ const CryptoElement: FC<CryptoElementProps> = ({
                 <h1 className="px-[6px]">{rank}</h1>
             </div>
             <div className="flex w-[20%] items-center">
-                <img
+                <Image
                     alt=""
-                    src={`https://assets.coincap.io/assets/icons/${symbol.toLowerCase()}@2x.png`}
-                    onError={setSrcPlaceholder}
+                    src={
+                        imgError
+                            ? 'https://via.placeholder.com/35'
+                            : `https://assets.coincap.io/assets/icons/${symbol.toLowerCase()}@2x.png`
+                    }
+                    onError={() => {
+                        setImgError(true);
+                    }}
                     width={25}
                     height={25}
                 />
@@ -76,12 +88,12 @@ const CryptoElement: FC<CryptoElementProps> = ({
                 </h1>
             </div>
             <div className="w-[10%]">{currencyFormat(Number(priceUsd))}</div>
-            <div className={`w-[5%] ${profitColor}`}>
+            <div className={`w-[5%] mx-[30px] ${profitColor}`}>
                 {symbolProfit}
                 {Number(changePercent24Hr).toFixed(2)} %
             </div>
-            <div className="w-[15%]">{currencyFormat(Number(marketCapUsd))}</div>
-            <div className="w-[10%]">{currencyFormat(Number(volumeUsd24Hr))}</div>
+            <div className="w-[15%] mx-[30px]">{currencyFormat(Number(marketCapUsd))}</div>
+            <div className="w-[10%] mx-[30px]">{currencyFormat(Number(volumeUsd24Hr))}</div>
         </div>
     );
 };

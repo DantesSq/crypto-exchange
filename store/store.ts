@@ -15,10 +15,11 @@ import {
     REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import localforage from 'localforage';
 
 const persistConfig = {
     key: 'root',
-    storage,
+    storage: localforage,
 };
 
 const rootReducer = combineReducers({

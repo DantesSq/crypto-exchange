@@ -6,9 +6,9 @@ import Providers from '../provider';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en" className="dark">
+        <html lang="en">
             <head />
-            <body className="text-text dark:bg-primaryD">
+            <body className="text-text dark:bg-primaryD bg-secondL">
                 <Providers>
                     <Header />
                     {children}

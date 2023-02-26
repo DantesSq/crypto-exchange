@@ -11,6 +11,7 @@ module.exports = {
             primaryL: '#0083f8',
             primaryD: '#080808',
             secondD: '#121318',
+            secondL: '#e6e9f2',
             white: '#ffffff',
             gray: '#babcc3',
             grayL: '#f5f5f5',

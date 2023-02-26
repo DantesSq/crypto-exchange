@@ -21,14 +21,16 @@ export const CryptoApi = createApi({
                 },
             }),
         }),
-        fetchCryptoBySearch: build.query<data, string>({
-            query: (search: string) => ({
-                url: '',
-                params: {
-                    limit: 20,
-                    search: search,
-                },
-            }),
+        fetchCryptoBySearch: build.query<data, { search: string; limit: number }>({
+            query: (args) => {
+                return {
+                    url: '',
+                    params: {
+                        search: args.search,
+                        limit: args.limit,
+                    },
+                };
+            },
         }),
     }),
 });
