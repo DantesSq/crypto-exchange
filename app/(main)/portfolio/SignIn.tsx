@@ -16,7 +16,7 @@ const SignIn = () => {
                     <p>
                         Don't have an account?
                         <Link href={'/signup'} className="text-primaryL">
-                            Sign Up!
+                            {' Sign Up!'}
                         </Link>
                     </p>
                 </div>

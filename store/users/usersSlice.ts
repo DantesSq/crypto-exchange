@@ -36,12 +36,14 @@ export const usersSlice = createSlice({
             state.users.push(newUser);
         },
         loginUser(state, action: PayloadAction<FormDataLogin>) {
-            const { email } = action.payload;
+            const { email, password } = action.payload;
             const userExists = state.users.filter((item) => item.email == email);
 
             if (userExists.length) {
-                state.authorized = true;
-                state.userInfo = userExists[0];
+                if (userExists[0].password === password) {
+                    state.authorized = true;
+                    state.userInfo = userExists[0];
+                }
             }
         },
         signOutUser(state) {
