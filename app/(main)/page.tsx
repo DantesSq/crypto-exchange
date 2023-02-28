@@ -78,10 +78,10 @@ const Home = () => {
     };
 
     return (
-        <div className="my-[40px] px-[20px] lg:px-[60px] dark:bg-primaryD lg:container ">
-            <div className="p-[25px] pb-[10px] my-[20px] bg-white dark:bg-secondD rounded-xl w-[100%] text-text dark:text-gray ">
+        <div className="my-[40px] px-0 md:px-[20px] lg:px-[60px] dark:bg-primaryD lg:container ">
+            <div className="p-[10px] md:p-[25px] pb-[10px] my-[20px] bg-white dark:bg-secondD rounded-xl w-[100%] text-text dark:text-gray ">
                 <div className=" flex items-center justify-between">
-                    <h1 className="text-[20px] my-4">Market Coins</h1>
+                    <h1 className="text-[24px] md:text-[20px] my-4">Market Coins</h1>
                     <div className="relative max-md:hidden">
                         <svg
                             className="absolute top-[50%] translate-y-[-50%] left-[10px]"
@@ -118,7 +118,7 @@ const Home = () => {
                     </div>
                 </div>
                 <div className="block overflow-x-auto w-full">
-                    <table className="w-full ">
+                    <table className="w-full text-[20px] md:text-[16px]">
                         <thead>
                             <tr className="flex items-center justify-start h-[60px] border-y-2 border-grayL dark:border-text border-solid text-gray">
                                 <th className="  flex w-[5%] ">#</th>

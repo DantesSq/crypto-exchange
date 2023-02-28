@@ -25,11 +25,11 @@ const Watchlist = () => {
 
     if (data && data.data.length)
         return (
-            <div className="lg:container my-[40px] px-[20px] lg:px-[60px] dark:bg-primaryD">
+            <div className="lg:container my-[40px] px-0 md:px-[20px] lg:px-[60px] dark:bg-primaryD">
                 <div className="p-[25px] my-[20px] bg-white dark:bg-secondD rounded-xl w-[100%] text-text">
-                    <h1 className="text-[20px] my-4">Your Watchlist</h1>
+                    <h1 className="text-[24px] md:text-[20px] my-4">Your Watchlist</h1>
                     <div className="block overflow-x-auto w-full">
-                        <table className="w-full ">
+                        <table className="w-full text-[20px] md:text-[16px] ">
                             <thead>
                                 <tr className="flex items-center justify-start h-[60px] border-y-2 border-grayL dark:border-text border-solid text-gray">
                                     <th className="  flex w-[5%] ">#</th>

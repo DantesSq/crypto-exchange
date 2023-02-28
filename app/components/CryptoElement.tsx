@@ -81,11 +81,13 @@ const CryptoElement: FC<CryptoElementProps> = ({
                     }}
                     width={25}
                     height={25}
+                    className={'md:w-[25px] md:h-[25px] w-[30px] h-[30px]'}
                 />
-                <h1>{name}</h1>
-                <h1 className="text-[12px] text-[#6171fe] px-[5px] py-[2px] bg-[#e9eaef] dark:bg-primaryD rounded">
+                <h1 className="hidden md:block">{name}</h1>
+                <h1 className="hidden md:block text-[12px] text-[#6171fe] px-[5px] py-[2px] bg-[#e9eaef] dark:bg-primaryD rounded">
                     {symbol}
                 </h1>
+                <h1 className="block md:hidden">{symbol}</h1>
             </td>
             <td className="w-[15%]  flex justify-center max-[890px]:w-[200px]">
                 {currencyFormat(Number(priceUsd))}
