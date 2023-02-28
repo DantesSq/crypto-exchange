@@ -68,7 +68,7 @@ const Home = () => {
                 (target.documentElement.scrollTop + window.innerHeight) <
             5
         ) {
-            setLimit((prev) => prev + 20);
+            // setLimit((prev) => prev + 20);
             setLoading(true);
         }
     };
@@ -78,11 +78,11 @@ const Home = () => {
     };
 
     return (
-        <div className="container my-[40px] px-[60px] dark:bg-primaryD">
-            <div className="p-[25px] pb-[10px] my-[20px] bg-white dark:bg-secondD rounded-xl w-[100%] text-text dark:text-gray">
-                <div className="flex items-center justify-between">
+        <div className="lg:container my-[40px] px-[20px] lg:px-[60px] dark:bg-primaryD">
+            <div className="p-[25px] pb-[10px] my-[20px] bg-white dark:bg-secondD rounded-xl w-[100%] text-text dark:text-gray ">
+                <div className=" flex items-center justify-between">
                     <h1 className="text-[20px] my-4">Market Coins</h1>
-                    <div className="relative">
+                    <div className="relative max-md:hidden">
                         <svg
                             className="absolute top-[50%] translate-y-[-50%] left-[10px]"
                             width="20px"
@@ -117,32 +117,46 @@ const Home = () => {
                         />
                     </div>
                 </div>
-                <div className="flex items-center h-[60px] border-b-2 dark:border-text border-grayL border-solid text-gray">
-                    <div className="w-[5%]">#</div>
-                    <div className="w-[20%]">Crypto Name</div>
-                    <div className="w-[10%]">Crypto Price</div>
-                    <div className="w-[5%] mx-[30px]">24h%</div>
-                    <div className="w-[15%] mx-[30px]">MarketCup Volume</div>
-                    <div className="w-[10%] mx-[30px]">Volume 24h</div>
-                </div>
+                <div className="block overflow-x-auto w-full">
+                    <table className="w-full ">
+                        <thead>
+                            <tr className="flex items-center justify-start h-[60px] border-y-2 border-grayL dark:border-text border-solid text-gray">
+                                <th className="  flex w-[5%] ">#</th>
+                                <th className="flex w-[20%] ">Crypto Name</th>
+                                <th className=" w-[15%] flex justify-center max-[890px]:w-[200px]">
+                                    Crypto Price
+                                </th>
+                                <th className="w-[15%] flex justify-center max-[890px]:w-[200px]">
+                                    24h%
+                                </th>
+                                <th className="w-[25%] flex justify-center max-[890px]:w-[200px]">
+                                    MarketCup Volume
+                                </th>
+                                <th className="w-[20%] flex justify-center max-[890px]:w-[200px]">
+                                    Volume 24h
+                                </th>
+                            </tr>
+                        </thead>
 
-                <>
-                    {data &&
-                        data.data &&
-                        data.data.map((item: cryptoItem) => (
-                            <CryptoElement
-                                key={item.id}
-                                rank={item.rank}
-                                id={item.id}
-                                symbol={item.symbol}
-                                name={item.name}
-                                priceUsd={item.priceUsd}
-                                changePercent24Hr={item.changePercent24Hr}
-                                marketCapUsd={item.marketCapUsd}
-                                volumeUsd24Hr={item.volumeUsd24Hr}
-                            />
-                        ))}
-                </>
+                        <tbody>
+                            {data &&
+                                data.data &&
+                                data.data.map((item: cryptoItem) => (
+                                    <CryptoElement
+                                        key={item.id}
+                                        rank={item.rank}
+                                        id={item.id}
+                                        symbol={item.symbol}
+                                        name={item.name}
+                                        priceUsd={item.priceUsd}
+                                        changePercent24Hr={item.changePercent24Hr}
+                                        marketCapUsd={item.marketCapUsd}
+                                        volumeUsd24Hr={item.volumeUsd24Hr}
+                                    />
+                                ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
             {loading && (
                 <div className="w-full text-center">
