@@ -78,7 +78,7 @@ const Home = () => {
     };
 
     return (
-        <div className="lg:container my-[40px] px-[20px] lg:px-[60px] dark:bg-primaryD">
+        <div className="my-[40px] px-[20px] lg:px-[60px] dark:bg-primaryD lg:container ">
             <div className="p-[25px] pb-[10px] my-[20px] bg-white dark:bg-secondD rounded-xl w-[100%] text-text dark:text-gray ">
                 <div className=" flex items-center justify-between">
                     <h1 className="text-[20px] my-4">Market Coins</h1>
@@ -123,16 +123,16 @@ const Home = () => {
                             <tr className="flex items-center justify-start h-[60px] border-y-2 border-grayL dark:border-text border-solid text-gray">
                                 <th className="  flex w-[5%] ">#</th>
                                 <th className="flex w-[20%] ">Crypto Name</th>
-                                <th className=" w-[15%] flex justify-center max-[890px]:w-[200px]">
+                                <th className=" max-[890px]:w-[200px] w-[15%] flex justify-center ">
                                     Crypto Price
                                 </th>
-                                <th className="w-[15%] flex justify-center max-[890px]:w-[200px]">
+                                <th className="max-[890px]:w-[200px] w-[15%] flex justify-center ">
                                     24h%
                                 </th>
-                                <th className="w-[25%] flex justify-center max-[890px]:w-[200px]">
+                                <th className="max-[890px]:w-[200px] w-[25%] flex justify-center ">
                                     MarketCup Volume
                                 </th>
-                                <th className="w-[20%] flex justify-center max-[890px]:w-[200px]">
+                                <th className="max-[890px]:w-[200px] w-[20%] flex justify-center ">
                                     Volume 24h
                                 </th>
                             </tr>
