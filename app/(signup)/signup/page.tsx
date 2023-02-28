@@ -1,5 +1,6 @@
 'use client';
 
+import MobileNav from '@/app/components/MobileNav';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { newPortfolio } from '@/store/portfolio/portfolioSlice';
 import { registerUser } from '@/store/users/usersSlice';
@@ -41,8 +42,11 @@ const SignUpPage = () => {
 
     return (
         <div className="bg-white rounded px-[40px] dark:bg-secondD">
-            <h1 className="text-3xl text-primaryD dark:text-white py-[50px]">Create an account</h1>
-            <div className="flex flex-col items-center ">
+            <h1 className="text-3xl text-primaryD dark:text-white py-[50px] md:block hidden">
+                Create an account
+            </h1>
+            <MobileNav pathname={'/signup'} />
+            <div className="flex flex-col items-center md:mt-0 mt-[100px]">
                 <form className="flex flex-col" onSubmit={onSubmit}>
                     <div className="my-[15px]">
                         <input

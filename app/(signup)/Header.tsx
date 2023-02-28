@@ -3,7 +3,7 @@ import React from 'react';
 
 const Header = () => {
     return (
-        <header className="w-full h-[125px] ">
+        <header className="w-full md:h-[125px] hidden md:block ">
             <nav className="h-[100%] container mx-[50px] px-[40px] flex items-center justify-between text-black dark:text-white  ">
                 <ul>
                     <li>

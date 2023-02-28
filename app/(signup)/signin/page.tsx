@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import MobileNav from '@/app/components/MobileNav';
 
 export interface FormDataLogin {
     email: string;
@@ -50,8 +51,11 @@ const SignInPage = () => {
 
     return (
         <div className=" bg-white dark:bg-secondD rounded px-[40px]">
-            <h1 className="text-3xl text-primaryD dark:text-white py-[50px]">Sign In</h1>
-            <div className="flex flex-col items-center ">
+            <h1 className="text-3xl text-primaryD dark:text-white py-[50px] md:block hidden">
+                Sign In
+            </h1>
+            <MobileNav pathname={'/signin'} />
+            <div className="flex flex-col items-center md:mt-0 mt-[100px]">
                 <form className="flex flex-col" onSubmit={onSubmit}>
                     <div className="my-[15px]">
                         <input
@@ -66,7 +70,7 @@ const SignInPage = () => {
                             placeholder="Enter Email"
                         />
                         {errors.email && (
-                            <h1 className="text-xs ml-[5px] text-[#FA8072]">
+                            <h1 className="md:text-xs ml-[5px] text-[#FA8072]">
                                 {errors.email.message}
                             </h1>
                         )}

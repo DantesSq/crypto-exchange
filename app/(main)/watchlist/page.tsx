@@ -34,16 +34,16 @@ const Watchlist = () => {
                                 <tr className="flex items-center justify-start h-[60px] border-y-2 border-grayL dark:border-text border-solid text-gray">
                                     <th className="  flex w-[5%] ">#</th>
                                     <th className="flex w-[20%] ">Crypto Name</th>
-                                    <th className=" w-[15%] flex justify-center max-[890px]:w-[200px]">
+                                    <th className=" w-[15%] flex justify-center max-[890px]:w-[120px]">
                                         Crypto Price
                                     </th>
                                     <th className="w-[15%] flex justify-center max-[890px]:w-[200px]">
                                         24h%
                                     </th>
-                                    <th className="w-[25%] flex justify-center max-[890px]:w-[200px]">
+                                    <th className="w-[25%] flex justify-center max-[890px]:w-[250px]">
                                         MarketCup Volume
                                     </th>
-                                    <th className="w-[20%] flex justify-center max-[890px]:w-[200px]">
+                                    <th className="w-[20%] flex justify-center max-[890px]:w-[250px]">
                                         Volume 24h
                                     </th>
                                 </tr>

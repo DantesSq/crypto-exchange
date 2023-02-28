@@ -151,7 +151,7 @@ const Navigation = () => {
             </div>
             {openPopup && (
                 <div className="w-full h-screen absolute z-10 bg-white dark:bg-secondD ">
-                    <ul className="mt-[20px] px-[30px] space-y-[10px] text-center text-[22px]">
+                    <ul className="pt-[90px] px-[30px] space-y-[40px] text-center text-[22px]">
                         <MobileNavigationItem
                             href="/"
                             text="Markets"
