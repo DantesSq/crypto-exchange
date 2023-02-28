@@ -116,7 +116,7 @@ const Navigation = () => {
                     </div>
 
                     {authorized ? (
-                        <li className="">
+                        <li className="hidden lg:block">
                             <button
                                 onClick={signout}
                                 className=" bg-[#d9dbe1] dark:bg-primaryD dark:hover:bg-secondD px-[28px] py-[13px] text-primaryL rounded-xl mx-3">
