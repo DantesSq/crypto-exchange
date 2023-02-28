@@ -89,17 +89,17 @@ const CryptoElement: FC<CryptoElementProps> = ({
                 </h1>
                 <h1 className="block md:hidden">{symbol}</h1>
             </td>
-            <td className="w-[15%]  flex justify-center max-[890px]:w-[200px]">
+            <td className="w-[15%]  flex justify-center max-[890px]:w-[120px]">
                 {currencyFormat(Number(priceUsd))}
             </td>
             <td className={`w-[15%] flex justify-center max-[890px]:w-[200px] ${profitColor}`}>
                 {symbolProfit}
                 {Number(changePercent24Hr).toFixed(2)} %
             </td>
-            <td className="w-[25%]  flex justify-center max-[890px]:w-[200px]">
+            <td className="w-[25%]  flex justify-center max-[890px]:w-[250px]">
                 {currencyFormat(Number(marketCapUsd))}
             </td>
-            <td className="w-[20%]  flex justify-center max-[890px]:w-[200px]">
+            <td className="w-[20%]  flex justify-center max-[890px]:w-[250px]">
                 {currencyFormat(Number(volumeUsd24Hr))}
             </td>
         </tr>
