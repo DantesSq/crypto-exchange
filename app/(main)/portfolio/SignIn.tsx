@@ -5,7 +5,7 @@ import React from 'react';
 const SignIn = () => {
     return (
         <div
-            className="container mx-auto px-[120px] mt-[15px] text-text dark:text-white text-[17px]
+            className="lx:container mx-auto px-[20px]  xl:px-[120px] mt-[15px] text-text dark:text-white text-[17px]
         ">
             <div className="bg-white  rounded-xl w-full py-[40px] flex flex-col items-center dark:bg-secondD space-y-[20px]">
                 <div>

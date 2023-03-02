@@ -68,7 +68,7 @@ const Home = () => {
                 (target.documentElement.scrollTop + window.innerHeight) <
             5
         ) {
-            // setLimit((prev) => prev + 20);
+            setLimit((prev) => prev + 20);
             setLoading(true);
         }
     };
@@ -78,7 +78,7 @@ const Home = () => {
     };
 
     return (
-        <div className="my-[40px] px-0 md:px-[20px] lg:px-[60px] dark:bg-primaryD lg:container ">
+        <div className="my-[40px] px-[10px] md:px-[20px] lg:px-[60px] dark:bg-primaryD lg:container ">
             <div className="p-[10px] md:p-[25px] pb-[10px] my-[20px] bg-white dark:bg-secondD rounded-xl w-[100%] text-text dark:text-gray ">
                 <div className=" flex items-center justify-between">
                     <h1 className="text-[24px] md:text-[20px] my-4">Market Coins</h1>

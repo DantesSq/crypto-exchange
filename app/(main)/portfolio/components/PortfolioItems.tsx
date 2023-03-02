@@ -167,90 +167,104 @@ const PortfolioItems = () => {
     return (
         <div className="px-[20px] my-[20px] bg-white dark:bg-secondD rounded-xl w-[100%] text-text">
             <h1 className="text-[20px] py-[20px]">Coin allocation</h1>
-            <div className="flex py-[20px] mb-[20px] border-y-2 border-grayL dark:border-text border-solid text-gray dark:text-text">
-                <div className="w-[20%]">Holdings</div>
-                <div className="w-[20%]">Price / Avg buy</div>
-                <div className="w-[20%]">Holding Assets</div>
-                <div className="w-[20%]">Total Asset Value</div>
-                <div className="w-[10%]">Proffit / Loss</div>
-                <div className="w-[10%]">Actions</div>
-            </div>
-            {coins?.length && (
-                <>
-                    <div className="pb-[20px] border-b-2 border-grayL dark:border-text border-solid">
-                        {data &&
-                            coins.map((item, id) => {
-                                if (Math.ceil((id + 1) / itemsPerPage) === currentPage) {
-                                    return (
-                                        <PortfolioItem
-                                            key={item.id}
-                                            newTransaction={newTransaction}
-                                            hide={hide}
-                                            removeItem={removeItem}
-                                            seeTransactions={seeTransactions}
-                                            {...item}
-                                        />
-                                    );
-                                }
-                            })}
-                    </div>
-                    <div className="flex justify-between items-center text-center py-[20px]">
-                        <h1>{coins.length} assets</h1>
-                        <div className=" flex space-x-[20px]">
-                            <svg
-                                onClick={() => {
-                                    dispatch(setPrevPage());
-                                }}
-                                className={`p-[5px] w-[25px] h-[25px] rounded hover:cursor-pointer ${
-                                    currentPage > 1
-                                        ? 'fill-primaryL border-[2px] border-solid border-primaryL '
-                                        : 'fill-gray'
-                                }`}
-                                viewBox="0 0 1920 1920"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="m1394.006 0 92.299 92.168-867.636 867.767 867.636 867.636-92.299 92.429-959.935-960.065z"
-                                    fillRule="evenodd"
-                                />
-                            </svg>
-                            <div className="flex justify-between space-x-[8px]">
-                                {pages?.map((_item, id) => {
-                                    return (
-                                        <div
-                                            className={`text-[18px] hover:cursor-pointer ${
-                                                id + 1 === currentPage
-                                                    ? 'text-[#000000] dark:text-text'
-                                                    : 'text-gray'
-                                            }`}
-                                            key={id}
-                                            onClick={() => {
-                                                dispatch(setCurrentPage(id + 1));
-                                            }}>
-                                            {id + 1}
-                                        </div>
-                                    );
+            <div
+                className="block overflow-x-auto w-full
+            ">
+                <table className="w-full ">
+                    <thead className="w-full">
+                        <tr className="flex py-[20px] border-y-2 border-grayL dark:border-text border-solid text-gray dark:text-text ">
+                            <th className=" flex w-[20%] max-md:w-[150px]">Holdings</th>
+                            <th className=" w-[20%] flex justify-center max-md:w-[150px]">
+                                Crypto Price
+                            </th>
+                            <th className="  flex w-[15%] max-md:w-[150px]">Holdings Assets</th>
+                            <th className=" w-[20%] flex justify-center max-md:w-[150px]">
+                                Total Asset Value
+                            </th>
+                            <th className=" w-[15%] flex justify-center max-md:w-[150px]">
+                                Profit / Loss
+                            </th>
+                            <th className="w-[10%] hidden md:flex justify-center">Actions</th>
+                        </tr>
+                    </thead>
+                    {coins?.length && (
+                        <tbody className="">
+                            {data &&
+                                coins.map((item, id) => {
+                                    if (Math.ceil((id + 1) / itemsPerPage) === currentPage) {
+                                        return (
+                                            <PortfolioItem
+                                                key={item.id}
+                                                newTransaction={newTransaction}
+                                                hide={hide}
+                                                removeItem={removeItem}
+                                                seeTransactions={seeTransactions}
+                                                {...item}
+                                            />
+                                        );
+                                    }
                                 })}
-                            </div>
-                            <svg
-                                onClick={() => {
-                                    dispatch(setNextPage(portfolio.coins.length));
-                                }}
-                                className={`p-[5px] w-[25px] h-[25px] rounded hover:cursor-pointer ${
-                                    currentPage < pages.length
-                                        ? 'fill-primaryL border-[2px] border-solid border-primaryL '
-                                        : 'fill-gray'
-                                }`}
-                                viewBox="0 0 1920 1920"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M526.299 0 434 92.168l867.636 867.767L434 1827.57l92.299 92.43 959.935-960.065z"
-                                    fillRule="evenodd"
-                                />
-                            </svg>
+                        </tbody>
+                    )}
+                </table>
+            </div>
+            <>
+                <div className="flex justify-between items-center text-center py-[15px] mt-[20px] border-t-2 border-grayL dark:border-text border-solid">
+                    <h1>{coins?.length ? coins?.length : 0} assets</h1>
+                    <div className=" flex space-x-[20px]">
+                        <svg
+                            onClick={() => {
+                                dispatch(setPrevPage());
+                            }}
+                            className={`p-[5px] w-[25px] h-[25px] rounded hover:cursor-pointer ${
+                                currentPage > 1
+                                    ? 'fill-primaryL border-[2px] border-solid border-primaryL '
+                                    : 'fill-gray'
+                            }`}
+                            viewBox="0 0 1920 1920"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="m1394.006 0 92.299 92.168-867.636 867.767 867.636 867.636-92.299 92.429-959.935-960.065z"
+                                fillRule="evenodd"
+                            />
+                        </svg>
+                        <div className="flex justify-between space-x-[8px]">
+                            {pages?.map((_item, id) => {
+                                return (
+                                    <div
+                                        className={`text-[18px] hover:cursor-pointer ${
+                                            id + 1 === currentPage
+                                                ? 'text-[#000000] dark:text-text'
+                                                : 'text-gray'
+                                        }`}
+                                        key={id}
+                                        onClick={() => {
+                                            dispatch(setCurrentPage(id + 1));
+                                        }}>
+                                        {id + 1}
+                                    </div>
+                                );
+                            })}
                         </div>
+                        <svg
+                            onClick={() => {
+                                dispatch(setNextPage(portfolio.coins.length));
+                            }}
+                            className={`p-[5px] w-[25px] h-[25px] rounded hover:cursor-pointer ${
+                                currentPage < pages.length
+                                    ? 'fill-primaryL border-[2px] border-solid border-primaryL '
+                                    : 'fill-gray'
+                            }`}
+                            viewBox="0 0 1920 1920"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M526.299 0 434 92.168l867.636 867.767L434 1827.57l92.299 92.43 959.935-960.065z"
+                                fillRule="evenodd"
+                            />
+                        </svg>
                     </div>
-                </>
-            )}
+                </div>
+            </>
         </div>
     );
 };

@@ -7,7 +7,7 @@ interface MobileNav {
 
 const MobileNav: FC<MobileNav> = ({ pathname }) => {
     return (
-        <div className="flex items-center justify-center space-x-[20px] text-[26px] p-[20px]">
+        <div className="flex items-center justify-center space-x-[20px] text-[26px] p-[20px] md:hidden">
             <Link
                 href={'/signin'}
                 className={`${

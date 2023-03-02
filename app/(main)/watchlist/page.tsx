@@ -25,8 +25,8 @@ const Watchlist = () => {
 
     if (data && data.data.length)
         return (
-            <div className="lg:container my-[40px] px-0 md:px-[20px] lg:px-[60px] dark:bg-primaryD">
-                <div className="p-[25px] my-[20px] bg-white dark:bg-secondD rounded-xl w-[100%] text-text">
+            <div className="lg:container my-[40px] px-[10px] md:px-[20px] lg:px-[60px] dark:bg-primaryD">
+                <div className="p-[10px] md:p-[25px] my-[20px] bg-white dark:bg-secondD rounded-xl w-[100%] text-text">
                     <h1 className="text-[24px] md:text-[20px] my-4">Your Watchlist</h1>
                     <div className="block overflow-x-auto w-full">
                         <table className="w-full text-[20px] md:text-[16px] ">

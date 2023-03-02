@@ -47,7 +47,7 @@ const Balance = () => {
                 <h1 className="text-[25px]">Portfolio</h1>
                 <button
                     onClick={addHoldings}
-                    className="bg-[#5367fe] dark:bg-primaryD dark:hover:bg-black dark:border-text datk:text-text border-solid border-[1px] text-white text-center py-[15px] px-[20px] rounded placeholder-white">
+                    className="bg-[#5367fe] dark:bg-primaryD dark:hover:bg-black dark:border-text datk:text-text border-solid border-[1px] text-white text-center py-[8px] px-[15px] md:py-[15px] md:px-[20px] rounded placeholder-white">
                     Add Holdings
                 </button>
             </div>
@@ -78,7 +78,7 @@ const Balance = () => {
                                 />
                             </g>
                         </svg>
-                        Balance
+                        <h1 className="md:block hidden">Balance</h1>
                     </div>
                     <div className="flex justify-between items-center">
                         <h1 className="lg:text-[30px] text-[25px] ml-[10px] mr-[10px] lg:ml-0">
@@ -88,12 +88,14 @@ const Balance = () => {
                             onClick={() => {
                                 dispatch(changeHide());
                             }}
-                            className="relative flex items-center p-[8px] mr-[10px] rounded text-text lg:text-[13px] text-[18px] bg-[#008dff] dark:bg-primaryD bg-opacity-10 hover:bg-opacity-30 hover:cursor-pointer">
+                            className="relative max-md:w-[30px] max-md:h-[30px] flex items-center p-[8px] mr-[10px] rounded text-text lg:text-[13px] text-[18px] bg-[#008dff] dark:bg-primaryD bg-opacity-10 hover:bg-opacity-30 hover:cursor-pointer">
                             {hide ? (
                                 <>
-                                    <h1 className="lg:pr-[20px] pr-[35px]">Show Price</h1>
+                                    <h1 className="lg:pr-[20px] pr-[35px] md:block hidden">
+                                        Show Price
+                                    </h1>
                                     <svg
-                                        className="fill-text absolute right-[5px] top-[55%] translate-y-[-50%] lg:w-[20px] lg:h-[20px] w-[40px] h-[40px]"
+                                        className="fill-text absolute right-[5px] top-[55%] translate-y-[-50%] w-[25px] h-[25px] "
                                         fill="#6b6e7c"
                                         viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -103,9 +105,11 @@ const Balance = () => {
                                 </>
                             ) : (
                                 <>
-                                    <h1 className="lg:pr-[20px] pr-[35px]">Hide Price</h1>
+                                    <h1 className="lg:pr-[20px] pr-[35px] md:block hidden">
+                                        Hide Price
+                                    </h1>
                                     <svg
-                                        className="fill-text absolute right-[5px] top-[55%] translate-y-[-50%] lg:w-[20px] lg:h-[20px] w-[40px] h-[40px]"
+                                        className="fill-text absolute right-[5px] top-[55%] translate-y-[-50%] w-[25px] h-[25px]"
                                         version="1.1"
                                         viewBox="0 0 600 600"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -119,8 +123,8 @@ const Balance = () => {
                         </div>
                     </div>
                 </div>
-                <div className="xl:ml-[15px] xl:w-[70%] w-[100%] md:flex flex-none dark:text-gray text-[15px] mt-[10px] justify-around flex-wrap">
-                    <div className="md:w-[28%] md:p-[10px] rounded bg-[#0083ff] dark:bg-primaryD bg-opacity-25 hover:bg-opacity-40">
+                <div className="xl:ml-[15px] xl:w-[70%] w-[100%] flex flex-wrap  dark:text-gray text-[15px] mt-[10px] justify-around max-sm:space-y-[20px]">
+                    <div className="md:w-[28%] w-full sm:w-[49%] pl-[5px]  md:p-[10px] rounded bg-[#0083ff] dark:bg-primaryD bg-opacity-25 hover:bg-opacity-40">
                         <div className="flex items-center ">
                             <svg
                                 className="mr-[6px]"
@@ -185,7 +189,7 @@ const Balance = () => {
                             {hide ? '***' : currencyFormat(investment)}
                         </div>
                     </div>
-                    <div className="md:w-[28%] md:p-[10px] rounded bg-[#ff0900] dark:bg-primaryD bg-opacity-25 hover:bg-opacity-40">
+                    <div className="md:w-[28%] w-full sm:w-[49%] pl-[5px] md:p-[10px] rounded bg-[#ff0900] dark:bg-primaryD bg-opacity-25 hover:bg-opacity-40">
                         <div className="flex items-center">
                             <svg
                                 className="mr-[6px]"
@@ -248,7 +252,7 @@ const Balance = () => {
                             {hide ? '***' : currencyFormat(totalReturn)}
                         </div>
                     </div>
-                    <div className="md:w-[28%] md:p-[10px] rounded bg-[#00ff79] dark:bg-primaryD bg-opacity-25 hover:bg-opacity-40">
+                    <div className="md:w-[28%] w-full sm:w-[50%] pl-[5px] md:p-[10px] rounded bg-[#00ff79] dark:bg-primaryD bg-opacity-25 hover:bg-opacity-40">
                         <div className="flex items-center">
                             <svg
                                 className="fill-[#9295a6] h-[20px] w-[20px] mr-[6px]"

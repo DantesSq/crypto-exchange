@@ -63,8 +63,8 @@ const PortfolioItem: FC<PortfolioItemProps> = ({
     }, []);
 
     return (
-        <div className="flex mt-[30px] relative dark:text-white">
-            <div className="flex w-[20%] items-center">
+        <tr className="flex mt-[30px] relative dark:text-white">
+            <td className="  flex items-center w-[20%] max-md:w-[150px]">
                 <Image
                     alt=""
                     src={
@@ -82,20 +82,24 @@ const PortfolioItem: FC<PortfolioItemProps> = ({
                 <h1 className="text-[12px] text-[#6171fe] px-[5px] py-[2px] bg-[#e9eaef] dark:bg-primaryD rounded">
                     {symbol.toUpperCase()}
                 </h1>
-            </div>
-            <div className="w-[20%]">
+            </td>
+            <td className=" w-[20%] text-center max-md:w-[150px]">
                 <div className="text-[18px] mt-[-5px]">{currencyFormat(currentPrice)}</div>
                 <div className="text-gray text-[14px] mt-[-5px]">
                     {hide ? '***' : currencyFormat(Number(price))}
                 </div>
-            </div>
-            <div className="w-[20%] text-gray">{hide ? '***' : quantity}</div>
-            <div className="w-[20%] text-gray">{hide ? '***' : currentTotal}</div>
-            <div className={`w-[10%] ${profitColor}`}>
+            </td>
+            <td className="  flex w-[15%] justify-center max-md:w-[150px]">
+                {hide ? '***' : quantity.toFixed(4)}
+            </td>
+            <td className=" w-[20%] flex justify-center max-md:w-[150px]">
+                {hide ? '***' : currentTotal.toFixed(4)}
+            </td>
+            <td className={`w-[15%] flex justify-center ${profitColor} max-md:w-[150px]`}>
                 {symbolProfit}
                 {percentChanges} %
-            </div>
-            <div className="w-[10%] flex items-center relative">
+            </td>
+            <td className="w-[10%] hidden md:flex justify-center relative ">
                 <svg
                     className="hover:cursor-pointer p-[3px] rounded-[50%] hover:border-[2px] dark:hover:border-text hover:border-grayL hover:shadow-lg"
                     onClick={() => {
@@ -195,8 +199,8 @@ const PortfolioItem: FC<PortfolioItemProps> = ({
                         </div>
                     </div>
                 )}
-            </div>
-        </div>
+            </td>
+        </tr>
     );
 };
 

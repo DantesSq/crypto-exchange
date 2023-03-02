@@ -8,6 +8,7 @@ import Image from 'next/image';
 interface NewTransactionProps {
     setOpenMenu: (arg: boolean) => void;
     setOpenBuyMenu: (arg: boolean) => void;
+    onCloseMenu: () => void;
 }
 
 type Inputs = {
@@ -15,7 +16,7 @@ type Inputs = {
     price: number;
 };
 
-const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }) => {
+const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu, onCloseMenu }) => {
     const dispatch = useAppDispatch();
     const { type, currentItem } = useAppSelector((state) => state.portfolioSlice);
     const userId = useAppSelector((state) => state.usersSlice.userInfo?.id);
@@ -48,6 +49,7 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
             dispatch(changeType(transactionTypes.BUY));
             setOpenBuyMenu(false);
             setOpenMenu(false);
+            onCloseMenu();
         }
     });
 
@@ -82,15 +84,15 @@ const NewTransaction: FC<NewTransactionProps> = ({ setOpenMenu, setOpenBuyMenu }
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
+                        className="dark:stroke-white stroke-primaryD"
                         d="M12.9998 8L6 14L12.9998 21"
-                        stroke="#ffffff"
                         strokeWidth="4"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                     />
                     <path
+                        className="dark:stroke-white stroke-primaryD"
                         d="M6 14H28.9938C35.8768 14 41.7221 19.6204 41.9904 26.5C42.2739 33.7696 36.2671 40 28.9938 40H11.9984"
-                        stroke="#ffffff"
                         strokeWidth="4"
                         strokeLinecap="round"
                         strokeLinejoin="round"

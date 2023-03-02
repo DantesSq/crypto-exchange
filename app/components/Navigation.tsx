@@ -9,10 +9,24 @@ import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import MobileNavigationItem from './MobileNavigationItem';
 
+const navItems = [
+    { name: 'Markets', href: '/' },
+    { name: 'Watchlist', href: '/watchlist' },
+    { name: 'Portfolio', href: '/portfolio' },
+];
+
 const Navigation = () => {
     const dispatch = useAppDispatch();
     const { authorized } = useAppSelector((state) => state.usersSlice);
+
     const pathname = usePathname();
+
+    const { theme, systemTheme, setTheme } = useTheme();
+    const currentTheme = theme === 'system' ? systemTheme : theme;
+
+    const [openPopup, setOpenPopup] = React.useState(false);
+    const [y, setY] = React.useState(window.pageYOffset);
+
     const signout = () => {
         dispatch(signOutUser());
     };
@@ -21,20 +35,26 @@ const Navigation = () => {
         setOpenPopup(false);
     };
 
-    const [openPopup, setOpenPopup] = React.useState(false);
-
-    const navItems = [
-        { name: 'Markets', href: '/' },
-        { name: 'Watchlist', href: '/watchlist' },
-        { name: 'Portfolio', href: '/portfolio' },
-    ];
-
-    const { theme, systemTheme, setTheme } = useTheme();
-    const currentTheme = theme === 'system' ? systemTheme : theme;
+    React.useEffect(() => {
+        const body = document.body;
+        if (openPopup) {
+            body.style.height = '100vh';
+            body.style.overflowY = 'hidden';
+            setY(window.pageYOffset);
+            window.scrollTo(0, 0);
+        } else {
+            window.scrollTo(0, y);
+            body.style.height = '';
+            body.style.overflowY = '';
+        }
+    }, [openPopup]);
 
     return (
         <nav className={'h-[100%] text-black dark:text-text'}>
-            <div className="h-[100%] lg:container mx-auto px-[20px] md:px-[60px] xl:px-[120px] flex items-center justify-between">
+            <div
+                className={`${
+                    openPopup ? 'justify-end' : 'justify-between'
+                } h-[100%] lg:container mx-auto px-[20px] md:px-[60px] xl:px-[120px] flex items-center justify-end`}>
                 {!openPopup && (
                     <ul className="h-[100%] flex justify-start items-center w-[50%]  lg:w-[20%] xl:w-[33.33%]">
                         <Link
@@ -72,48 +92,50 @@ const Navigation = () => {
                     ))}
                 </ul>
 
-                <ul className="h-[100%] flex justify-end items-center lg:first-letter:w-[33.33%]">
-                    <div className="hidden lg:block">
-                        {currentTheme === 'dark' ? (
-                            <svg
-                                className="hover:cursor-pointer "
-                                onClick={() => {
-                                    setTheme('light');
-                                }}
-                                width="35x"
-                                height="35px"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M3 12H5M5.00006 19L7.00006 17M12 19V21M17 17L19 19M5 5L7 7M19 12H21M16.9999 7L18.9999 5M12 3V5M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
-                                    stroke="#ffffff"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
-                            </svg>
-                        ) : (
-                            <svg
-                                className="hover:cursor-pointer fill-secondD rotate-[30deg]"
-                                onClick={() => {
-                                    setTheme('dark');
-                                }}
-                                width="30px "
-                                height="30px "
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M20.8667 15.3164C20.9187 15.1983 20.8006 15.0785 20.6792 15.1223V15.1223C17.3165 16.3368 13.4497 15.6201 10.9124 13.0837C8.38689 10.5592 7.66861 6.7169 8.86147 3.36559V3.36559C8.91069 3.22729 8.77418 3.09296 8.64021 3.15299C8.63117 3.15704 8.62214 3.16111 8.61311 3.16518C6.75765 4.00313 5.10654 5.4166 4.13683 7.19736C3.1002 9.10101 2.75831 11.3058 3.16975 13.4339C3.58119 15.5619 4.72034 17.4806 6.39193 18.861C8.06352 20.2414 10.1634 20.9977 12.3317 21C14.1962 21.0001 16.0181 20.4424 17.5629 19.3987C18.9891 18.4352 20.1189 16.9756 20.8311 15.3962C20.8431 15.3697 20.8549 15.343 20.8667 15.3164Z"
-                                    stroke="none"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
-                            </svg>
-                        )}
-                    </div>
+                <ul className="h-[100%] flex items-center justify-end lg:w-[33.33%] ">
+                    {!openPopup && (
+                        <div className="max-lg:mr-[15px]">
+                            {currentTheme === 'dark' ? (
+                                <svg
+                                    className="hover:cursor-pointer "
+                                    onClick={() => {
+                                        setTheme('light');
+                                    }}
+                                    width="35x"
+                                    height="35px"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M3 12H5M5.00006 19L7.00006 17M12 19V21M17 17L19 19M5 5L7 7M19 12H21M16.9999 7L18.9999 5M12 3V5M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
+                                        stroke="#ffffff"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
+                                </svg>
+                            ) : (
+                                <svg
+                                    className="hover:cursor-pointer fill-secondD rotate-[30deg]"
+                                    onClick={() => {
+                                        setTheme('dark');
+                                    }}
+                                    width="30px "
+                                    height="30px "
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M20.8667 15.3164C20.9187 15.1983 20.8006 15.0785 20.6792 15.1223V15.1223C17.3165 16.3368 13.4497 15.6201 10.9124 13.0837C8.38689 10.5592 7.66861 6.7169 8.86147 3.36559V3.36559C8.91069 3.22729 8.77418 3.09296 8.64021 3.15299C8.63117 3.15704 8.62214 3.16111 8.61311 3.16518C6.75765 4.00313 5.10654 5.4166 4.13683 7.19736C3.1002 9.10101 2.75831 11.3058 3.16975 13.4339C3.58119 15.5619 4.72034 17.4806 6.39193 18.861C8.06352 20.2414 10.1634 20.9977 12.3317 21C14.1962 21.0001 16.0181 20.4424 17.5629 19.3987C18.9891 18.4352 20.1189 16.9756 20.8311 15.3962C20.8431 15.3697 20.8549 15.343 20.8667 15.3164Z"
+                                        stroke="none"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
+                                </svg>
+                            )}
+                        </div>
+                    )}
 
                     {authorized ? (
                         <li className="hidden lg:block">
@@ -124,7 +146,7 @@ const Navigation = () => {
                             </button>
                         </li>
                     ) : (
-                        <li className="hidden md:flex">
+                        <li className="hidden lg:flex">
                             <Link
                                 className=" bg-[#d9dbe1] dark:bg-black dark:hover:bg-secondD px-[28px] py-[13px] text-primaryL rounded-xl mx-3"
                                 href="/signin">
@@ -137,20 +159,20 @@ const Navigation = () => {
                             </Link>
                         </li>
                     )}
+                    <div
+                        className="lg:hidden h-[33px] w-[45px] mr-[15px] rounded relative hover:cursor-pointer"
+                        onClick={() => {
+                            setOpenPopup((prev) => !prev);
+                        }}>
+                        <div className="absolute w-[45px] h-[5px] rounded-xl bg-black dark:bg-grayL top-0 right-0"></div>
+                        <div className="absolute w-[45px] h-[5px] rounded-xl bg-black dark:bg-grayL top-[50%] translate-y-[-50%] right-0"></div>
+                        <div className="absolute w-[45px] h-[5px] rounded-xl bg-black dark:bg-grayL bottom-0 right-0"></div>
+                    </div>
                 </ul>
-
-                <div
-                    className="lg:hidden h-[33px] w-[45px] mr-[15px] rounded relative hover:cursor-pointer"
-                    onClick={() => {
-                        setOpenPopup((prev) => !prev);
-                    }}>
-                    <div className="absolute w-[45px] h-[5px] rounded-xl bg-black dark:bg-grayL top-0 right-0"></div>
-                    <div className="absolute w-[45px] h-[5px] rounded-xl bg-black dark:bg-grayL top-[50%] translate-y-[-50%] right-0"></div>
-                    <div className="absolute w-[45px] h-[5px] rounded-xl bg-black dark:bg-grayL bottom-0 right-0"></div>
-                </div>
             </div>
             {openPopup && (
-                <div className="w-full h-screen absolute z-10 bg-white dark:bg-secondD ">
+                <div
+                    className={`top-[${window.pageYOffset}px] w-full h-screen overflow-y-hidden absolute z-10 bg-white dark:bg-secondD `}>
                     <ul className="pt-[90px] px-[30px] space-y-[40px] text-center text-[22px]">
                         <MobileNavigationItem
                             href="/"
@@ -170,18 +192,31 @@ const Navigation = () => {
                             pathname={pathname}
                             closePopup={closePopup}
                         />
-                        <MobileNavigationItem
-                            href="/signin"
-                            text="Sign In"
-                            pathname={pathname}
-                            closePopup={closePopup}
-                        />
-                        <MobileNavigationItem
-                            href="/signup"
-                            text="Sign Up"
-                            pathname={pathname}
-                            closePopup={closePopup}
-                        />
+                        {authorized ? (
+                            <li
+                                className="hover:text-primaryL hover:cursor-pointer"
+                                onClick={() => {
+                                    closePopup();
+                                    signout();
+                                }}>
+                                Log Out
+                            </li>
+                        ) : (
+                            <>
+                                <MobileNavigationItem
+                                    href="/signin"
+                                    text="Sign In"
+                                    pathname={pathname}
+                                    closePopup={closePopup}
+                                />
+                                <MobileNavigationItem
+                                    href="/signup"
+                                    text="Sign Up"
+                                    pathname={pathname}
+                                    closePopup={closePopup}
+                                />
+                            </>
+                        )}
                     </ul>
                 </div>
             )}
